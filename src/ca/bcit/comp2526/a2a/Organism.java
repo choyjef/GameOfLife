@@ -3,6 +3,8 @@
  */
 package ca.bcit.comp2526.a2a;
 
+import java.awt.Color;
+
 /**
  * @author Jeffrey
  *
@@ -16,10 +18,6 @@ public abstract class Organism implements Content {
      */
     public Organism(Cell location) {
         // TODO Auto-generated constructor stub
-    }
-    
-    public void init() {
-       
     }
     
     public void setCell(Cell location) {

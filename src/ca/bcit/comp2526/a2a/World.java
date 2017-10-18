@@ -27,13 +27,22 @@ public class World {
     }
     
     public void init() {
-        for (int i = 0; i < rows; i++) {
-            for (int j = 0; j < columns; j++) {
+        int inhabitantRoll;
+        
+        for (int i = 0; i < this.rows; i++) {
+            for (int j = 0; j < this.columns; j++) {
                 grid[i][j] = new Cell(this, i, j);
-                if (RandomGenerator.nextNumber(100) >= 80) {
-                    grid[i][j].setInhabitant(new Plant());
-                } else if (RandomGenerator.nextNumber(100) >= 50) {
-                    //generate herbivore
+                inhabitantRoll = RandomGenerator.nextNumber(99);
+                
+                if (inhabitantRoll >= 80) {
+                    grid[i][j].setInhabitant(new Herbivore(grid[i][j]));
+                    grid[i][j].init();
+                } else if (inhabitantRoll >= 50) {
+                    grid[i][j].setInhabitant(new Plant(grid[i][j]));
+                    grid[i][j].init();
+                } else {
+                    grid[i][j].setInhabitant(new Empty(grid[i][j]));
+                    grid[i][j].init();
                 }
             }
         }

@@ -35,25 +35,11 @@ public class Cell extends JPanel {
         this.row = row;
         this.column = column;
         this.world = world;
-        init();
-        
+        meetNeighbours();
     }
     
     public void init() {
-        List<Cell> neighbs = new ArrayList<Cell>();
-        
-        for (int i = this.row - 1; i <= this.row + 1; i++) {
-            for (int j = this.column - 1; j <= this.column + 1; j++) {
-                if (i == this.row && j == this.column) {
-                    continue;
-                }
-                if (isInWorld(i, j)) {
-                    neighbs.add(world.getCellAt(i, j));
-                }
-            }
-        }
-        
-        this.neighbours = neighbs.toArray(new Cell[neighbs.size()]);
+        this.setBackground(inhabitant.init());
         
     }
     
@@ -86,6 +72,23 @@ public class Cell extends JPanel {
                 && y >= 0 
                 && x < world.getColumnCount() 
                 && y < world.getRowCount();
+    }
+    
+    private void meetNeighbours() {
+        List<Cell> neighbs = new ArrayList<Cell>();
+        
+        for (int i = this.row - 1; i <= this.row + 1; i++) {
+            for (int j = this.column - 1; j <= this.column + 1; j++) {
+                if (i == this.row && j == this.column) {
+                    continue;
+                }
+                if (isInWorld(i, j)) {
+                    neighbs.add(world.getCellAt(i, j));
+                }
+            }
+        }
+        
+        this.neighbours = neighbs.toArray(new Cell[neighbs.size()]);
     }
 
 }
