@@ -11,7 +11,7 @@ public class TurnListener extends MouseAdapter {
     /**
      * 
      */
-    public TurnListener() {
+    public TurnListener(GameFrame game) {
         // TODO Auto-generated constructor stub
     }
 

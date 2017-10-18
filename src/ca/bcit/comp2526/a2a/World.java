@@ -17,18 +17,41 @@ public class World {
      * 
      */
     public World(int rows, int columns) {
-        // TODO Auto-generated constructor stub
+        this.rows = rows;
+        this.columns = columns;
+        this.grid = new Cell[rows][columns];
     }
     
-    void advance() {
+    public void takeTurn() {
         
     }
     
-    void init() {
+    public void init() {
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < columns; j++) {
+                grid[i][j] = new Cell(this, i, j);
+                if (RandomGenerator.nextNumber(100) >= 80) {
+                    grid[i][j].setInhabitant(new Plant());
+                } else if (RandomGenerator.nextNumber(100) >= 50) {
+                    //generate herbivore
+                }
+            }
+        }
         
     }
     
     Cell getCellAt(int row, int column) {
+        return grid[row][column];
+        
+    }
+    
+    public int getRowCount() {
+        return rows;
+        
+    }
+    
+    public int getColumnCount() {
+        return columns;
         
     }
 
