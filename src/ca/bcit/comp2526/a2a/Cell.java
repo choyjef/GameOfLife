@@ -4,7 +4,6 @@
 package ca.bcit.comp2526.a2a;
 
 import java.awt.Color;
-import java.awt.LayoutManager;
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,6 +14,7 @@ import javax.swing.JPanel;
  * @author Jeffrey
  *
  */
+@SuppressWarnings("serial")
 public class Cell extends JPanel {
     private World world;
     
@@ -35,18 +35,18 @@ public class Cell extends JPanel {
         this.row = row;
         this.column = column;
         this.world = world;
-        meetNeighbours();
     }
     
-    public void init() {
-        this.setBackground(inhabitant.init());
+    public void draw() {
+        System.out.println(row + ", " + column);
+    }
+    
+    public Content getInhabitant() {
+        return inhabitant;
         
     }
     
-    public void takeTurn() {
-        
-    }
-    
+    @Override
     public Point getLocation() {
         Point location = new Point(this.row, this.column);
         
@@ -58,13 +58,8 @@ public class Cell extends JPanel {
         
     }
     
-    public void setInhabitant(Content c) {
-        this.inhabitant = c;
-    }
-    
-    public Content getInhabitant() {
-        return inhabitant;
-        
+    public void init() {
+        this.setBackground(color);    
     }
     
     private boolean isInWorld(int x, int y) {
@@ -74,7 +69,7 @@ public class Cell extends JPanel {
                 && y < world.getRowCount();
     }
     
-    private void meetNeighbours() {
+    public void meetNeighbours() {
         List<Cell> neighbs = new ArrayList<Cell>();
         
         for (int i = this.row - 1; i <= this.row + 1; i++) {
@@ -90,5 +85,18 @@ public class Cell extends JPanel {
         
         this.neighbours = neighbs.toArray(new Cell[neighbs.size()]);
     }
-
+    
+    public void setInhabitant(Content c) {
+        this.inhabitant = c;
+        color = this.inhabitant.getColor();
+    }
+    
+    public void takeTurn() {
+        inhabitant.takeAction();
+        
+    }
+    
+    public void die() {
+        
+    }
 }

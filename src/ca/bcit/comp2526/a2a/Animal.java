@@ -1,20 +1,26 @@
-/**
- * 
- */
 package ca.bcit.comp2526.a2a;
 
-/**
- * @author Jeffrey
- *
- */
-public abstract class Animal extends Organism {
+public abstract class Animal extends Content implements Organism {
+    
+    private int hunger;
 
-    /**
-     * @param location
-     */
     public Animal(Cell location) {
         super(location);
-        // TODO Auto-generated constructor stub
+    }
+
+    /**
+     * @return the hunger
+     */
+    public int getHunger() {
+        return hunger;
+    }
+
+    /**
+     * @param hunger 
+     *          the hunger to set
+     */
+    public void setHunger(int hunger) {
+        this.hunger = hunger;
     }
 
 }

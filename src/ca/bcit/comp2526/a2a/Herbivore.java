@@ -1,28 +1,24 @@
-/**
- * 
- */
 package ca.bcit.comp2526.a2a;
 
 import java.awt.Color;
 
-/**
- * @author Jeffrey
- *
- */
-public class Herbivore extends Animal implements Content {
+public class Herbivore extends Animal {
 
-    /**
-     * @param location
-     */
     public Herbivore(Cell location) {
         super(location);
-        // TODO Auto-generated constructor stub
+        setColor(Color.yellow);
     }
 
     @Override
-    public Color init() {
+    void init() {
         // TODO Auto-generated method stub
-        return Color.yellow;
+        
+    }
+
+    @Override
+    void takeAction() {
+        // TODO Auto-generated method stub
+        
     }
 
 }

@@ -2,11 +2,11 @@ package ca.bcit.comp2526.a2a;
 
 import java.awt.Color;
 
-public class Plant extends Content {
+public class Blank extends Content {
 
-    public Plant(Cell location) {
+    public Blank(Cell location) {
         super(location);
-        setColor(Color.green);
+        setColor(Color.white);
     }
 
     @Override
