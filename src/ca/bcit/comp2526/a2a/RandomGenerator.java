@@ -2,7 +2,8 @@ package ca.bcit.comp2526.a2a;
 
 public final class RandomGenerator {
     private static final int[] NUMBERS;
-
+    
+    
     static {
         NUMBERS = new int[] { -1155484576, -723955400, 1033096058, -1690734402, -1557280266, 1327362106, -1930858313,
                 502539523, -1728529858, -938301587, 1431162155, 1085665355, 1654374947, -1661998771, -65105105,

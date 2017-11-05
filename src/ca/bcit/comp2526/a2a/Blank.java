@@ -3,12 +3,19 @@ package ca.bcit.comp2526.a2a;
 import java.awt.Color;
 
 /**
+ * A Blank Content object. Used to represent an empty Cell.
  * 
  * @author Jeffrey
  * @version 2017-11-04
  */
 public class Blank extends Content {
 
+    /**
+     * Creates a Blank object.
+     * 
+     * @param location
+     *          the initial Cell location where this object exists
+     */
     public Blank(Cell location) {
         super(location);
         setColor(Color.white);
