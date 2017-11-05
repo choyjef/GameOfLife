@@ -15,7 +15,7 @@ public class World {
     int rows;
     int columns;
     Cell[][] grid;
-    List<Cell> herbivores = new ArrayList<Cell>();
+    List<Animal> herbivores = new ArrayList<Animal>();
     List<Cell> plants = new ArrayList<Cell>();
 
     /**
@@ -38,14 +38,6 @@ public class World {
         }
     }
 
-    public void hungerCheck() {
-        for (int i = 0; i < this.rows; i++) {
-            for (int j = 0; j < this.columns; j++) {
-
-            }
-        }
-    }
-
     public void init() {
         int inhabitantRoll;
 
@@ -55,11 +47,9 @@ public class World {
                 inhabitantRoll = RandomGenerator.nextNumber(99);
 
                 if (inhabitantRoll >= 80) {
-                    grid[i][j].setInhabitant(new Herbivore(grid[i][j]));
-                    herbivores.add(grid[i][j]);
+                    grid[i][j].setInhabitant(new Herbivore(grid[i][j]));                    
                 } else if (inhabitantRoll >= 50) {
                     grid[i][j].setInhabitant(new Plant(grid[i][j]));
-                    plants.add(grid[i][j]);
                 } else {
                     grid[i][j].setInhabitant(new Blank(grid[i][j]));
                 }

@@ -10,15 +10,14 @@ public class Blank extends Content {
     }
 
     @Override
-    void init() {
+    public void init() {
         // TODO Auto-generated method stub
 
     }
 
     @Override
-    void takeAction() {
-        // TODO Auto-generated method stub
-
+    public void takeAction() {
+        // Blank Cells do nothing for their action.
     }
 
 }

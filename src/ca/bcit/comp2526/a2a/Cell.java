@@ -93,10 +93,7 @@ public class Cell extends JPanel {
     
     public void takeTurn() {
         inhabitant.takeAction();
-        
-    }
-    
-    public void die() {
+        this.setBackground(color);
         
     }
 }

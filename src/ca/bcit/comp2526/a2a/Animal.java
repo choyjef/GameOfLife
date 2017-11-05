@@ -22,5 +22,9 @@ public abstract class Animal extends Content implements Organism {
     public void setHunger(int hunger) {
         this.hunger = hunger;
     }
+    
+    public void die() {
+        getLocation().setInhabitant(new Blank(getLocation()));
+    }
 
 }

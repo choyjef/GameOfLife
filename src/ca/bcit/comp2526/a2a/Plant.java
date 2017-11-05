@@ -10,13 +10,13 @@ public class Plant extends Content {
     }
 
     @Override
-    void init() {
+    public void init() {
         // TODO Auto-generated method stub
 
     }
 
     @Override
-    void takeAction() {
+    public void takeAction() {
         // TODO Auto-generated method stub
 
     }
