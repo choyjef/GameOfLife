@@ -5,6 +5,12 @@ import java.awt.GridLayout;
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 
+/**
+ * 
+ * @author Jeffrey
+ * @version 2017-11-04
+ */
+@SuppressWarnings("serial")
 public class GameFrame extends JFrame {
     private final World world;
 

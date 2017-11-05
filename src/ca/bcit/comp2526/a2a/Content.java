@@ -1,12 +1,10 @@
-/**
- * 
- */
 package ca.bcit.comp2526.a2a;
 
 import java.awt.Color;
 
 /**
  * @author Jeffrey
+ * @version 2017-11-04
  *
  */
 public abstract class Content implements Edible {
@@ -14,6 +12,7 @@ public abstract class Content implements Edible {
     private Color color;
     private boolean actionTaken;
     private Cell location;
+    private ContentType type;
     
     public Content(Cell location) {
         this.location = location;
@@ -67,5 +66,21 @@ public abstract class Content implements Edible {
      */
     public void setLocation(Cell location) {
         this.location = location;
+    }
+
+
+    /**
+     * @return the type
+     */
+    public ContentType getType() {
+        return type;
+    }
+
+
+    /**
+     * @param type the type to set
+     */
+    public void setType(ContentType type) {
+        this.type = type;
     }
 }

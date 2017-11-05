@@ -1,6 +1,3 @@
-/**
- * 
- */
 package ca.bcit.comp2526.a2a;
 
 import java.awt.Color;
@@ -12,7 +9,7 @@ import javax.swing.JPanel;
 
 /**
  * @author Jeffrey
- *
+ * @version 2017-11-04
  */
 @SuppressWarnings("serial")
 public class Cell extends JPanel {
@@ -88,7 +85,7 @@ public class Cell extends JPanel {
     
     public void setInhabitant(Content c) {
         this.inhabitant = c;
-        color = this.inhabitant.getColor();
+        this.inhabitant.init();
     }
     
     public void takeTurn() {
@@ -99,6 +96,15 @@ public class Cell extends JPanel {
     }
     
     public boolean isEmpty() {
-        return inhabitant.getClass().getSimpleName().equals("Blank");
+        return inhabitant.getType() == ContentType.BLANK;
     }
+
+    public Color getColor() {
+        return color;
+    }
+
+    public void setColor(Color color) {
+        this.color = color;
+    }
+    
 }

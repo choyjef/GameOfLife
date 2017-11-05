@@ -1,5 +1,10 @@
 package ca.bcit.comp2526.a2a;
 
+/**
+ * 
+ * @author Jeffrey
+ * @version 2017-11-04
+ */
 public abstract class Animal extends Content implements Organism {
     
     private int hunger;

@@ -5,6 +5,11 @@ import java.awt.Point;
 import java.awt.Toolkit;
 import javax.swing.JFrame;
 
+/**
+ * 
+ * @author Jeffrey
+ * @version 2017-11-04
+ */
 public final class Main {
     private static final Toolkit TOOLKIT;
 
@@ -21,7 +26,7 @@ public final class Main {
 
         RandomGenerator.reset();
         world = new World(25, 25);
-        //world = new World(10, 10);
+        //world = new World(5, 5);
         world.init();
         frame = new GameFrame(world);
         position(frame);

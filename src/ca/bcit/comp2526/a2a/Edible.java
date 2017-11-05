@@ -1,10 +1,16 @@
 package ca.bcit.comp2526.a2a;
 
+/**
+ * An interface to determine whether an object can be eaten
+ * by another object.
+ * 
+ * @author Jeffrey
+ * @version 2017-11-04
+ *
+ */
 public interface Edible {
     
-    //Returns true if this object is edible by a herbivore
-    public boolean isEdible(Herbivore herbivore);
+    boolean isEdible(Herbivore herbivore);
 
-    //Returns true if object is edible by a plant
-    public boolean isEdible(Plant plant);
+    boolean isEdible(Plant plant);
 }

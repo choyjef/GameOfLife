@@ -2,16 +2,22 @@ package ca.bcit.comp2526.a2a;
 
 import java.awt.Color;
 
+/**
+ * 
+ * @author Jeffrey
+ * @version 2017-11-04
+ */
 public class Blank extends Content {
 
     public Blank(Cell location) {
         super(location);
         setColor(Color.white);
+        setType(ContentType.BLANK);
     }
 
     @Override
     public void init() {
-        // TODO Auto-generated method stub
+        getLocation().setColor(Color.white);
 
     }
 

@@ -5,17 +5,23 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+/** 
+ * 
+ * @author Jeffrey
+ * @version 2017-11-04
+ */
 public class Herbivore extends Animal {
 
     public Herbivore(Cell location) {
         super(location);
         setColor(Color.yellow);
         setHunger(10);
+        setType(ContentType.HERBIVORE);
     }
 
     @Override
     public void init() {
-        // TODO Auto-generated method stub
+        getLocation().setColor(Color.yellow);
         
     }
 
@@ -62,9 +68,6 @@ public class Herbivore extends Animal {
             setHunger(10);
             return foodLocations.get(randNum);
         }
-        
-                
-        
     }
 
     @Override

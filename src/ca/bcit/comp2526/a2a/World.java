@@ -1,21 +1,28 @@
-/**
- * 
- */
 package ca.bcit.comp2526.a2a;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 /**
+ * A world object in which the Game of Life takes place.
+ * 
  * @author Jeffrey
+ * @version 2017-11-04
  *
  */
 public class World {
 
-    int rows;
-    int columns;
-    Cell[][] grid;
+    /**
+     * The number of rows in the world grid.
+     */
+    private int rows;
+    
+    /**
+     * The number of columns in the world grid.
+     */
+    private int columns;
+    
+    /**
+     * A grid of Cells which visually represents the game world.
+     */
+    private Cell[][] grid;
 
     /**
      * 
@@ -30,20 +37,15 @@ public class World {
 
         for (int i = 0; i < this.rows; i++) {
             for (int j = 0; j < this.columns; j++) {
-
                 grid[i][j].takeTurn();
-
             }
         }
         
         for (int i = 0; i < this.rows; i++) {
             for (int j = 0; j < this.columns; j++) {
-
                 grid[i][j].getInhabitant().setActionTaken(false);
-
             }
-        }
-        
+        } 
     }
 
     public void init() {
@@ -61,36 +63,22 @@ public class World {
                 } else {
                     grid[i][j].setInhabitant(new Blank(grid[i][j]));
                 }
-
                 grid[i][j].init();
             }
         }
-
         meetTheNeighbourhood();
-
-        
-        List<Cell> neighbs = new
-        ArrayList<Cell>(Arrays.asList(grid[0][1].getNeighbours()));
-        
-        for (int n = 0; n < neighbs.size(); n++) {
-        System.out.print("Neighbour #" + n + ": "); neighbs.get(n).draw(); }
-         
-
     }
 
     Cell getCellAt(int row, int column) {
         return grid[row][column];
-
     }
 
     public int getRowCount() {
         return rows;
-
     }
 
     public int getColumnCount() {
         return columns;
-
     }
 
     private void meetTheNeighbourhood() {
@@ -99,7 +87,6 @@ public class World {
                 grid[i][j].meetNeighbours();
             }
         }
-
     }
 
 }
