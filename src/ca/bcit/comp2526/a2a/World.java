@@ -4,6 +4,7 @@
 package ca.bcit.comp2526.a2a;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -15,8 +16,6 @@ public class World {
     int rows;
     int columns;
     Cell[][] grid;
-    List<Animal> herbivores = new ArrayList<Animal>();
-    List<Cell> plants = new ArrayList<Cell>();
 
     /**
      * 
@@ -36,6 +35,15 @@ public class World {
 
             }
         }
+        
+        for (int i = 0; i < this.rows; i++) {
+            for (int j = 0; j < this.columns; j++) {
+
+                grid[i][j].getInhabitant().setActionTaken(false);
+
+            }
+        }
+        
     }
 
     public void init() {
@@ -60,13 +68,13 @@ public class World {
 
         meetTheNeighbourhood();
 
-        /*
-         * List<Cell> neighbs = new
-         * ArrayList<Cell>(Arrays.asList(grid[14][24].getNeighbours()));
-         * 
-         * for (int n = 0; n < neighbs.size(); n++) {
-         * System.out.print("Neighbour #" + n + ": "); neighbs.get(n).draw(); }
-         */
+        
+        List<Cell> neighbs = new
+        ArrayList<Cell>(Arrays.asList(grid[0][1].getNeighbours()));
+        
+        for (int n = 0; n < neighbs.size(); n++) {
+        System.out.print("Neighbour #" + n + ": "); neighbs.get(n).draw(); }
+         
 
     }
 

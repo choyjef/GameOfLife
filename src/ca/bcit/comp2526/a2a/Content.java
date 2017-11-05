@@ -9,7 +9,7 @@ import java.awt.Color;
  * @author Jeffrey
  *
  */
-public abstract class Content {
+public abstract class Content implements Edible {
     
     private Color color;
     private boolean actionTaken;

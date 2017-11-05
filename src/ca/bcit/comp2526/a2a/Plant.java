@@ -21,4 +21,13 @@ public class Plant extends Content {
 
     }
 
+    @Override
+    public boolean isEdible(Herbivore herbivore) {
+        return true;
+    }
+
+    @Override
+    public boolean isEdible(Plant plant) {
+        return false;
+    }
 }

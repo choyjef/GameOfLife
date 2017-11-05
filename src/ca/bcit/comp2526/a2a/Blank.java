@@ -20,4 +20,14 @@ public class Blank extends Content {
         // Blank Cells do nothing for their action.
     }
 
+    @Override
+    public boolean isEdible(Herbivore herbivore) {
+        return false;
+    }
+
+    @Override
+    public boolean isEdible(Plant plant) {
+        return false;
+    }
+
 }

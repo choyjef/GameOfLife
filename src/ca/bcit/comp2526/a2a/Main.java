@@ -21,6 +21,7 @@ public final class Main {
 
         RandomGenerator.reset();
         world = new World(25, 25);
+        //world = new World(10, 10);
         world.init();
         frame = new GameFrame(world);
         position(frame);

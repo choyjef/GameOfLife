@@ -92,8 +92,13 @@ public class Cell extends JPanel {
     }
     
     public void takeTurn() {
-        inhabitant.takeAction();
-        this.setBackground(color);
-        
+        if (!inhabitant.isActionTaken()) {
+            inhabitant.takeAction();
+            this.setBackground(color);
+        }
+    }
+    
+    public boolean isEmpty() {
+        return inhabitant.getClass().getSimpleName().equals("Blank");
     }
 }
