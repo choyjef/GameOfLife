@@ -12,7 +12,7 @@ public class World {
     /**
      * The upper limit passed to our random number generator.
      */
-    private static final int RANDOM_GEN_LIMIT = 100;
+    private static final int RANDOM_GEN_LIMIT = 99;
     
     /**
      * Probability constant for generating a herbivore.
@@ -27,12 +27,12 @@ public class World {
     /**
      * Probability constant for generating a carnivore.
      */
-    private static final int CARNIVORE_PROB = 50;
+    private static final int CARNIVORE_PROB = 40;
     
     /**
      * Probability constant for generating a omnivore.
      */
-    private static final int OMNIVORE_PROB = 50;
+    private static final int OMNIVORE_PROB = 32;
     
     /**
      * The number of rows in the world grid.

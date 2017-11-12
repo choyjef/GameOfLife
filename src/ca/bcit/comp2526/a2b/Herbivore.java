@@ -16,7 +16,7 @@ public class Herbivore extends Animal {
     /**
      * The days without eating an Herbivore can exist for.
      */
-    private static final int HUNGER_COUNTER_DEFUALT = 10;
+    private static final int HUNGER_COUNTER_HERBIVORE = 10;
 
     /**
      * Constructs an Herbivore object.
@@ -26,7 +26,7 @@ public class Herbivore extends Animal {
     public Herbivore(Cell location) {
         super(location);
         setColor(Color.yellow);
-        setHunger(HUNGER_COUNTER_DEFUALT);
+        setHunger(HUNGER_COUNTER_HERBIVORE);
         setType(ContentType.HERBIVORE);
     }
 
@@ -91,7 +91,7 @@ public class Herbivore extends Animal {
             return searchArea[randNum];
         } else {
             int randNum = numberGenerator.nextInt(foodLocations.size());
-            setHunger(HUNGER_COUNTER_DEFUALT);
+            setHunger(HUNGER_COUNTER_HERBIVORE);
             return foodLocations.get(randNum);
         }
     }
