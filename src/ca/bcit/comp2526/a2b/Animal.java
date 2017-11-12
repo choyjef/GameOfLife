@@ -1,9 +1,9 @@
-package ca.bcit.comp2526.a2a;
+package ca.bcit.comp2526.a2b;
 
 /**
  * Abstract class of an Animal object.
  * 
- * @author Jeffrey
+ * @author Jeffrey Choy
  * @version 2017-11-04
  */
 public abstract class Animal extends Content implements Organism {

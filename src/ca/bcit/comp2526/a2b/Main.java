@@ -1,4 +1,4 @@
-package ca.bcit.comp2526.a2a;
+package ca.bcit.comp2526.a2b;
 
 import java.awt.Dimension;
 import java.awt.Point;

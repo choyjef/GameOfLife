@@ -1,4 +1,4 @@
-package ca.bcit.comp2526.a2a;
+package ca.bcit.comp2526.a2b;
 
 public final class RandomGenerator {
     private static final int[] NUMBERS;

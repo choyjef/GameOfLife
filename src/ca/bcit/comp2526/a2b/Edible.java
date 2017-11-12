@@ -1,4 +1,4 @@
-package ca.bcit.comp2526.a2a;
+package ca.bcit.comp2526.a2b;
 
 /**
  * An interface to determine whether an object can be eaten

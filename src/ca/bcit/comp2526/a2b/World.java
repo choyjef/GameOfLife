@@ -1,4 +1,4 @@
-package ca.bcit.comp2526.a2a;
+package ca.bcit.comp2526.a2b;
 
 /**
  * A world object in which the Game of Life takes place.
@@ -12,17 +12,27 @@ public class World {
     /**
      * The upper limit passed to our random number generator.
      */
-    private static final int RANDOM_GEN_LIMIT = 99;
+    private static final int RANDOM_GEN_LIMIT = 100;
     
     /**
-     * The upper limit passed to our random number generator.
+     * Probability constant for generating a herbivore.
      */
     private static final int HERBIVORE_PROB = 80;
     
     /**
-     * The upper limit passed to our random number generator.
+     * Probability constant for generating a plant.
      */
     private static final int PLANT_PROB = 50;
+    
+    /**
+     * Probability constant for generating a carnivore.
+     */
+    private static final int CARNIVORE_PROB = 50;
+    
+    /**
+     * Probability constant for generating a omnivore.
+     */
+    private static final int OMNIVORE_PROB = 50;
     
     /**
      * The number of rows in the world grid.
@@ -78,18 +88,22 @@ public class World {
      *      into the cells.
      */
     public void init() {
-        int inhabitantRoll;
+        RandomGenerator.reset();
 
         for (int i = 0; i < this.rows; i++) {
             for (int j = 0; j < this.columns; j++) {
                 grid[i][j] = new Cell(this, i, j);
-                inhabitantRoll = RandomGenerator.nextNumber(RANDOM_GEN_LIMIT);
+                int inhabRoll = RandomGenerator.nextNumber(RANDOM_GEN_LIMIT);
 
-                if (inhabitantRoll >= HERBIVORE_PROB) {
+                if (inhabRoll >= HERBIVORE_PROB) {
                     grid[i][j].setInhabitant(
                             new Herbivore(grid[i][j]));                    
-                } else if (inhabitantRoll >= PLANT_PROB) {
+                } else if (inhabRoll >= PLANT_PROB) {
                     grid[i][j].setInhabitant(new Plant(grid[i][j]));
+                } else if (inhabRoll >= CARNIVORE_PROB) {
+                    grid[i][j].setInhabitant(new Carnivore(grid[i][j]));
+                } else if (inhabRoll >= OMNIVORE_PROB) {
+                    grid[i][j].setInhabitant(new Omnivore(grid[i][j]));
                 } else {
                     grid[i][j].setInhabitant(new Blank(grid[i][j]));
                 }
