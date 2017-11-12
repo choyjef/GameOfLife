@@ -12,7 +12,7 @@ public class World {
     /**
      * The upper limit passed to our random number generator.
      */
-    private static final int RANDOM_GEN_LIMIT = 100;
+    private static final int RANDOM_GEN_LIMIT = 99;
     
     /**
      * The upper limit passed to our random number generator.
