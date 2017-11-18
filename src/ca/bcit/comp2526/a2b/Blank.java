@@ -43,4 +43,22 @@ public class Blank extends Content {
         return false;
     }
 
+    @Override
+    public boolean isEdible(Omnivore omnivore) {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+    @Override
+    public boolean isEdible(Carnivore carnivore) {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+    @Override
+    public boolean isEdible(Lifeform lifeform) {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
 }

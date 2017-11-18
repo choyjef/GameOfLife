@@ -11,7 +11,7 @@ import java.util.Random;
  * @author Jeffrey
  * @version 2017-11-04
  */
-public class Plant extends Content implements Organism {
+public class Plant extends Lifeform {
     
     /**
      * The requisite amount of surrounding partners for seeding.
@@ -32,7 +32,6 @@ public class Plant extends Content implements Organism {
     public Plant(Cell location) {
         super(location);
         setColor(Color.green);
-        setType(ContentType.PLANT);
     }
 
     @Override
@@ -121,6 +120,24 @@ public class Plant extends Content implements Organism {
 
     @Override
     public boolean isEdible(Plant plant) {
+        return false;
+    }
+
+    @Override
+    public boolean isEdible(Omnivore omnivore) {
+        // TODO Auto-generated method stub
+        return true;
+    }
+
+    @Override
+    public boolean isEdible(Carnivore carnivore) {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+    @Override
+    public boolean isEdible(Lifeform lifeform) {
+        // TODO Auto-generated method stub
         return false;
     }
 }

@@ -11,7 +11,7 @@ import java.util.Random;
  * @author Jeffrey
  * @version 2017-11-04
  */
-public class Herbivore extends Animal {
+public class Herbivore extends Lifeform {
     
     /**
      * The days without eating an Herbivore can exist for.
@@ -27,7 +27,6 @@ public class Herbivore extends Animal {
         super(location);
         setColor(Color.yellow);
         setHunger(HUNGER_COUNTER_HERBIVORE);
-        setType(ContentType.HERBIVORE);
     }
 
     @Override
@@ -51,15 +50,15 @@ public class Herbivore extends Animal {
      *      with food (plants), and if there is a plant in the destination Cell
      *      will kill that object. 
      */
-    private void move() {
-        Cell currentLocation = getLocation();
-        Cell destination = findFood(currentLocation.getNeighbours());
-
-        currentLocation.setInhabitant(new Blank(currentLocation));
-        setLocation(destination);
-        destination.setInhabitant(this);
-        destination.init();
-    }
+    //private void move() {
+//        Cell currentLocation = getLocation();
+//        Cell destination = findFood(currentLocation.getNeighbours());
+//
+//        currentLocation.setInhabitant(new Blank(currentLocation));
+//        setLocation(destination);
+//        destination.setInhabitant(this);
+//        destination.init();
+   // }
 
     /**
      * Searches the provided Cell array for Cells containing food and randomly
@@ -72,6 +71,7 @@ public class Herbivore extends Animal {
      *              selected empty Cell.
      */
     private Cell findFood(Cell[] searchArea) {
+
 
         List<Cell> foodLocations = new ArrayList<Cell>();
         Random numberGenerator = new Random();
@@ -103,6 +103,24 @@ public class Herbivore extends Animal {
 
     @Override
     public boolean isEdible(Plant plant) {
+        return false;
+    }
+
+    @Override
+    public boolean isEdible(Omnivore omnivore) {
+        // TODO Auto-generated method stub
+        return true;
+    }
+
+    @Override
+    public boolean isEdible(Carnivore carnivore) {
+        // TODO Auto-generated method stub
+        return true;
+    }
+
+    @Override
+    public boolean isEdible(Lifeform lifeform) {
+        // TODO Auto-generated method stub
         return false;
     }
 

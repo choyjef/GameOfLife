@@ -1,5 +1,8 @@
 package ca.bcit.comp2526.a2b;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * A world object in which the Game of Life takes place.
  * 
@@ -12,7 +15,7 @@ public class World {
     /**
      * The upper limit passed to our random number generator.
      */
-    private static final int RANDOM_GEN_LIMIT = 99;
+    private static final int RANDOM_GEN_LIMIT = 100;
     
     /**
      * Probability constant for generating a herbivore.
@@ -82,6 +85,27 @@ public class World {
             }
         } 
     }
+    
+    public void update() {
+        
+        List<Lifeform> lifeforms = new ArrayList<Lifeform>();
+        
+        for (int i = 0; i < this.rows; i++) {
+            for (int j = 0; j < this.columns; j++) {
+                if (grid[i][j].getInhabitant() instanceof Lifeform) {
+                    lifeforms.add(grid[i][j].getInhabitant());
+                }
+            }
+        }
+        
+        for (Lifeform l : lifeforms) {
+            if (!l.isActionTaken()) {
+                l.takeAction();
+            }
+        }
+        
+        
+    }
 
     /**
      * Initializes the World object by creating and populating creatures 
@@ -105,7 +129,7 @@ public class World {
                 } else if (inhabRoll >= OMNIVORE_PROB) {
                     grid[i][j].setInhabitant(new Omnivore(grid[i][j]));
                 } else {
-                    grid[i][j].setInhabitant(new Blank(grid[i][j]));
+                    grid[i][j].setInhabitant(null);
                 }
                 grid[i][j].init();
             }

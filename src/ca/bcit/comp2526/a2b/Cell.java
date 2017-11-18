@@ -40,7 +40,7 @@ public class Cell extends JPanel {
     /**
      * The Content object currently existing in this Cell.
      */
-    private Content inhabitant;
+    private Lifeform inhabitant;
     
     /**
      * Array of neighbouring Cells.
@@ -76,7 +76,7 @@ public class Cell extends JPanel {
      * @return
      *      This Cell's Content inhabitant.
      */
-    public Content getInhabitant() {
+    public Lifeform getInhabitant() {
         return inhabitant;
         
     }
@@ -154,11 +154,11 @@ public class Cell extends JPanel {
     
     /**
      * Sets content object as inhabitant of this Cell.
-     * @param c
+     * @param l
      *          new inhabitant.
      */
-    public void setInhabitant(Content c) {
-        this.inhabitant = c;
+    public void setInhabitant(Lifeform l) {
+        this.inhabitant = l;
         this.inhabitant.init();
     }
     
@@ -182,7 +182,7 @@ public class Cell extends JPanel {
      *      True if cell is considered empty.
      */
     public boolean isEmpty() {
-        return inhabitant.getType() == ContentType.BLANK;
+        return inhabitant == null;
     }
 
     /**

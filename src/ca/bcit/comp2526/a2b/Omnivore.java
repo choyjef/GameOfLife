@@ -2,7 +2,7 @@ package ca.bcit.comp2526.a2b;
 
 import java.awt.Color;
 
-public class Omnivore extends Animal {
+public class Omnivore extends Lifeform {
     
     /**
      * The days without eating an Omnivore can exist for.
@@ -13,8 +13,7 @@ public class Omnivore extends Animal {
         super(location);
         setColor(Color.blue);
         setHunger(HUNGER_COUNTER_OMNIVORE);
-        setType(ContentType.HERBIVORE);
-        // TODO Auto-generated constructor stub
+
     }
 
     @Override
@@ -39,6 +38,21 @@ public class Omnivore extends Animal {
     void takeAction() {
         // TODO Auto-generated method stub
 
+    }
+
+    @Override
+    public boolean isEdible(Omnivore omnivore) {
+        return false;
+    }
+
+    @Override
+    public boolean isEdible(Carnivore carnivore) {
+        return true;
+    }
+
+    @Override
+    public boolean isEdible(Lifeform lifeform) {
+        return false;
     }
 
 }
