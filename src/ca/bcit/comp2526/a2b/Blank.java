@@ -56,7 +56,7 @@ public class Blank extends Content {
     }
 
     @Override
-    public boolean isEdible(Lifeform lifeform) {
+    public boolean isEdible(Edible edible) {
         // TODO Auto-generated method stub
         return false;
     }

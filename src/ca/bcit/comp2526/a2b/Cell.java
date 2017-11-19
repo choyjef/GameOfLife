@@ -159,7 +159,9 @@ public class Cell extends JPanel {
      */
     public void setInhabitant(Lifeform l) {
         this.inhabitant = l;
-        this.inhabitant.init();
+        if (inhabitant != null) {
+            inhabitant.init();
+        }
     }
     
     /**
@@ -168,8 +170,13 @@ public class Cell extends JPanel {
      *      or been replaced.
      */
     public void takeTurn() {
-        if (!inhabitant.isActionTaken()) {
-            inhabitant.takeAction();
+        
+    }
+    
+    public void update() {
+        if (inhabitant == null) {
+            this.setBackground(Color.white);
+        } else {
             this.setBackground(color);
         }
     }

@@ -29,10 +29,22 @@ public abstract class Lifeform implements Edible {
     private int hunger;
     
     /**
+     * Indicates whether the lifeform has just eaten.
+     */
+    private boolean justAte;
+    
+   
+
+    /**
      * Flag for whether this object has performed an action this turn.
      */
     private boolean actionTaken;
     
+    private int matesRequired;
+    
+    private int foodRequired;
+    
+    private int spaceRequired;
     
     /**
      * Constructs a Lifeform object.
@@ -63,9 +75,7 @@ public abstract class Lifeform implements Edible {
         this.hunger = hunger;
     }
     
-    private void resetHunger() {
-        setHunger(0);
-    }
+    abstract void resetHunger();
     
     /**
      * Returns the colour associated with the Content type.
@@ -133,6 +143,7 @@ public abstract class Lifeform implements Edible {
         }
         move();
         setActionTaken(true);
+        updateHealth();
     }
 
     /**
@@ -140,67 +151,203 @@ public abstract class Lifeform implements Edible {
      */
     public void die() {
         setActionTaken(true);
-        getLocation().setInhabitant(null);
+        location.setInhabitant(null);
+        location.update();
     }
     
     public void move() {
         Cell currentLocation = location;
-        Cell destination = choosePosition(currentLocation.getNeighbours());
-
+        Cell destination = chooseMovePosition();
+        
+        if (currentLocation == destination) {
+            return;
+        }
+        
         currentLocation.setInhabitant(null);
+        currentLocation.update();
         setLocation(destination);
-        if (destination.getInhabitant().isEdible(this)) {
+        if (destination.getInhabitant() == null) {
+            justAte = false;
+        } else if (destination.getInhabitant().isEdible(this)) {
             eat(destination.getInhabitant());
         }
         destination.setInhabitant(this);
-        destination.init();
-        
+        destination.init(); 
     }
     
-    public void updateHealth() {
+    public Cell chooseMovePosition() {
         
-    }
-    
-    public void reproduce() {
-        
-    }
-    
-    public Cell choosePosition(Cell[] searchArea) {
+        Cell[] searchArea = location.getNeighbours();
         
         List<Cell> foodLocations = new ArrayList<Cell>();
+        List<Cell> emptyLocations = new ArrayList<Cell>();
         Random numberGenerator = new Random();
+        System.out.print("chooseMovePosition for cell: ");
+        location.draw();
         
-        //check if neighbours edible, if so add to foodlocations
+        
+        // checks if neighbours empty or edible, if so add to emptylocations
+        // or foodlocations respectively
         for (int i = 0; i < searchArea.length; i++) {
-            if (searchArea[i].getInhabitant().isEdible(this)) {
+            Lifeform l = searchArea[i].getInhabitant();
+            if (l == null) { 
+                emptyLocations.add(searchArea[i]);
+                System.out.print("added to empty list: ");
+                searchArea[i].draw();
+            } else if (l.isEdible(this)) {
                 foodLocations.add(searchArea[i]);
+                System.out.print("added to food list: ");
+                searchArea[i].draw();
             }
         }
         
+        if (emptyLocations.isEmpty() && foodLocations.isEmpty()) {
+            return location;
+        }
+        
         // if there is no neighbouring food, wander aimlessly
-        if (foodLocations.size() == 0) {
-            int randNum = numberGenerator.nextInt(searchArea.length);
-            while (!searchArea[randNum].isEmpty()) {
-                randNum = numberGenerator.nextInt(searchArea.length);
-            }
-            setHunger(getHunger() - 1);
-            return searchArea[randNum];
+        if (foodLocations.isEmpty()) {
+            int randNum = numberGenerator.nextInt(emptyLocations.size());
+            return emptyLocations.get(randNum);
         } else {
             //if there is food, randomly select one
             int randNum = numberGenerator.nextInt(foodLocations.size());
-            resetHunger();
             return foodLocations.get(randNum);
         }
     }
     
+    public void updateHealth() {
+        if (justAte) {
+            resetHunger();
+        } else {
+            hunger += 1;
+        }
+        
+        this.justAte = false;
+        
+    }
+    
+    protected boolean isDead() {
+        return this.hunger <= 0; 
+    }
+    
+    protected boolean moodIsRight(int numberMatesReq, int numberEmptyReq, int numberFoodReq) {
+        
+        Cell[] searchArea = location.getNeighbours();
+        int partnersCount = 0;
+        int birthLocationCount = 0;
+        int foodCount = 0;
+
+        for (int i = 0; i < searchArea.length; i++) {
+            Lifeform l = searchArea[i].getInhabitant();
+            if (this.getClass().equals(l.getClass())) {
+                partnersCount++;
+            } else if (searchArea[i].isEmpty()) {
+                birthLocationCount++;
+            } else if (l.isEdible(this)) {
+                foodCount++;
+            }
+        }
+        
+        return (partnersCount >= numberMatesReq 
+                && birthLocationCount >= numberEmptyReq 
+                && foodCount >= numberFoodReq);
+        
+    }
+    
+    public void reproduce() {
+        if (moodIsRight(getMatesRequired(), getSpaceRequired(), getFoodRequired())) {
+            Cell birthDestination = chooseBirthDestination();
+            
+            Lifeform l = giveBirth(birthDestination);
+            birthDestination.setInhabitant(l);
+            birthDestination.getInhabitant().setActionTaken(true);
+            
+        }
+    }
+    
+    abstract Lifeform giveBirth(Cell location);
+    
+    protected Cell chooseBirthDestination() {
+        Cell[] searchArea = location.getNeighbours();
+        List<Cell> birthLocations = new ArrayList<Cell>();
+        Random numberGenerator = new Random();
+        int randNum;
+        
+        // check if neighbours empty, if so add to list of potential 
+        // birth locations
+        for (int i = 0; i < searchArea.length; i++) {
+            if (searchArea[i].getInhabitant().isEdible(this)) {
+                birthLocations.add(searchArea[i]);
+            }
+        }
+        
+        // randomly select from potential birth locations
+        randNum = numberGenerator.nextInt(birthLocations.size());
+        return birthLocations.get(randNum);
+    }
+    
+    
     protected void eat(Lifeform food) {
         food.die();
-        resetHunger(); 
+        justAte = true; 
     }
     
     /**
      * Sets the background colour of the cell.
      */
-    abstract public void init(); //TODO: possibly may want to provide implementation on this level
+    public void init() {
+        location.setColor(this.color);
+    }
+
+    /**
+     * @return the spaceRequired
+     */
+    public int getSpaceRequired() {
+        return spaceRequired;
+    }
+
+    /**
+     * @param spaceRequired the spaceRequired to set
+     */
+    public void setSpaceRequired(int spaceRequired) {
+        this.spaceRequired = spaceRequired;
+    }
+
+    /**
+     * @return the foodRequired
+     */
+    public int getFoodRequired() {
+        return foodRequired;
+    }
+
+    /**
+     * @param foodRequired the foodRequired to set
+     */
+    public void setFoodRequired(int foodRequired) {
+        this.foodRequired = foodRequired;
+    }
+
+    /**
+     * @return the matesRequired
+     */
+    public int getMatesRequired() {
+        return matesRequired;
+    }
+
+    /**
+     * @param matesRequired the matesRequired to set
+     */
+    public void setMatesRequired(int matesRequired) {
+        this.matesRequired = matesRequired;
+    }
+    
+    public boolean isJustAte() {
+        return justAte;
+    }
+
+    public void setJustAte(boolean justAte) {
+        this.justAte = justAte;
+    }
 
 }

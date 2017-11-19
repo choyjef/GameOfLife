@@ -50,6 +50,6 @@ public interface Edible {
      */
     boolean isEdible(Carnivore carnivore);
     
-    boolean isEdible(Lifeform lifeform);
+ //   boolean isEdible(Edible edible);
     
 }

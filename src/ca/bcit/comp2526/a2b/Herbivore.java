@@ -14,9 +14,24 @@ import java.util.Random;
 public class Herbivore extends Lifeform {
     
     /**
-     * The days without eating an Herbivore can exist for.
+     * The number of days without eating an Herbivore can exist for.
      */
-    private static final int HUNGER_COUNTER_HERBIVORE = 10;
+    private static final int HERBIVORE_HUNGER = 10;
+    
+    /**
+     * The number of adjacent empty spaces required for reproduction.
+     */
+    private static final int HERB_SPACE_REQ = 1;
+    
+    /**
+     * The number of adjacent mates required for reproduction.
+     */
+    private static final int HERB_MATES_REQ = 2;
+    
+    /**
+     * The number of adjacent spaces containing food required for reproduction.
+     */
+    private static final int HERB_FOOD_REQ = 2;
 
     /**
      * Constructs an Herbivore object.
@@ -26,24 +41,12 @@ public class Herbivore extends Lifeform {
     public Herbivore(Cell location) {
         super(location);
         setColor(Color.yellow);
-        setHunger(HUNGER_COUNTER_HERBIVORE);
+        setHunger(HERBIVORE_HUNGER);
+        setSpaceRequired(HERB_SPACE_REQ);
+        setMatesRequired(HERB_MATES_REQ);
+        setFoodRequired(HERB_FOOD_REQ);
     }
 
-    @Override
-    public void init() {
-        getLocation().setColor(Color.yellow);
-
-    }
-
-    @Override
-    public void takeAction() {
-        if (getHunger() <= 0) {
-            die();
-            return;
-        }
-        move();
-        setActionTaken(true);
-    }
 
     /**
      * Moves the Herbivore into an empty neighbouring Cell, preferring Cells
@@ -91,7 +94,7 @@ public class Herbivore extends Lifeform {
             return searchArea[randNum];
         } else {
             int randNum = numberGenerator.nextInt(foodLocations.size());
-            setHunger(HUNGER_COUNTER_HERBIVORE);
+            setHunger(HERBIVORE_HUNGER);
             return foodLocations.get(randNum);
         }
     }
@@ -119,9 +122,22 @@ public class Herbivore extends Lifeform {
     }
 
     @Override
-    public boolean isEdible(Lifeform lifeform) {
+    public boolean isEdible(Edible edible) {
         // TODO Auto-generated method stub
         return false;
+    }
+
+    @Override
+    Lifeform giveBirth(Cell location) {
+        
+        return new Herbivore(location);
+    }
+
+
+    @Override
+    void resetHunger() {
+        setHunger(HERBIVORE_HUNGER);
+        
     }
 
 }

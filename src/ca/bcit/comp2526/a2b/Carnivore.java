@@ -5,14 +5,32 @@ import java.awt.Color;
 public class Carnivore extends Lifeform {
     
     /**
-     * The days without eating a Carnivore can exist for.
+     * The number of days without eating an Carnivore can exist for.
      */
-    private static final int HUNGER_COUNTER_CARNIVORE = 10;
+    private static final int CARNIVORE_HUNGER = 7;
+    
+    /**
+     * The number of adjacent empty spaces required for reproduction.
+     */
+    private static final int CARN_SPACE_REQ = 2;
+    
+    /**
+     * The number of adjacent mates required for reproduction.
+     */
+    private static final int CARN_MATES_REQ = 1;
+    
+    /**
+     * The number of adjacent spaces containing food required for reproduction.
+     */
+    private static final int CARN_FOOD_REQ = 2;
 
     public Carnivore(Cell location) {
         super(location);
         setColor(Color.magenta);
-        setHunger(HUNGER_COUNTER_CARNIVORE);
+        setHunger(CARNIVORE_HUNGER);
+        setSpaceRequired(CARN_SPACE_REQ);
+        setMatesRequired(CARN_MATES_REQ);
+        setFoodRequired(CARN_FOOD_REQ);
     }
 
     @Override
@@ -26,12 +44,6 @@ public class Carnivore extends Lifeform {
     }
 
     @Override
-    void init() {
-        getLocation().setColor(this.getColor());
-
-    }
-
-    @Override
     public boolean isEdible(Omnivore omnivore) {
         return true;
     }
@@ -42,14 +54,19 @@ public class Carnivore extends Lifeform {
     }
 
     @Override
-    public boolean isEdible(Lifeform lifeform) {
+    public boolean isEdible(Edible edible) {
         return false;
     }
 
     @Override
-    void takeAction() {
-        // TODO Auto-generated method stub
-
+    Lifeform giveBirth(Cell location) {
+        
+        return new Carnivore(location);
     }
 
+    @Override
+    void resetHunger() {
+        setHunger(CARNIVORE_HUNGER);
+        
+    }
 }

@@ -73,17 +73,7 @@ public class World {
      */
     public void takeTurn() {
 
-        for (int i = 0; i < this.rows; i++) {
-            for (int j = 0; j < this.columns; j++) {
-                grid[i][j].takeTurn();
-            }
-        }
-        
-        for (int i = 0; i < this.rows; i++) {
-            for (int j = 0; j < this.columns; j++) {
-                grid[i][j].getInhabitant().setActionTaken(false);
-            }
-        } 
+        update();
     }
     
     public void update() {
@@ -102,6 +92,10 @@ public class World {
             if (!l.isActionTaken()) {
                 l.takeAction();
             }
+        }
+        
+        for (Lifeform l : lifeforms) {
+            l.setActionTaken(false);
         }
         
         
@@ -125,11 +119,11 @@ public class World {
                 } else if (inhabRoll >= PLANT_PROB) {
                     grid[i][j].setInhabitant(new Plant(grid[i][j]));
                 } else if (inhabRoll >= CARNIVORE_PROB) {
-                    grid[i][j].setInhabitant(new Carnivore(grid[i][j]));
+                    //grid[i][j].setInhabitant(new Carnivore(grid[i][j]));
                 } else if (inhabRoll >= OMNIVORE_PROB) {
-                    grid[i][j].setInhabitant(new Omnivore(grid[i][j]));
+                    //grid[i][j].setInhabitant(new Omnivore(grid[i][j]));
                 } else {
-                    grid[i][j].setInhabitant(null);
+                    
                 }
                 grid[i][j].init();
             }

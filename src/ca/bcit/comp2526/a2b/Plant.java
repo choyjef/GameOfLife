@@ -22,7 +22,18 @@ public class Plant extends Lifeform {
      * The requisite amount of surround empty Cells for seeding.
      */
     private static final int EMPTY_REQ = 3;
-
+    
+    
+    /**
+     * The number of adjacent empty spaces required for reproduction.
+     */
+    private static final int PLANT_SPACE_REQ = 3;
+    
+    /**
+     * The number of adjacent mates required for reproduction.
+     */
+    private static final int PLANT_MATES_REQ = 2;
+    
     /**
      * Constructs a Plant object.
      * 
@@ -32,86 +43,15 @@ public class Plant extends Lifeform {
     public Plant(Cell location) {
         super(location);
         setColor(Color.green);
+        setHunger(1);
     }
+
 
     @Override
-    public void init() {
-        getLocation().setColor(Color.green);
-
+    public void move() {
+        
     }
 
-    @Override
-    public void takeAction() {
-
-        if (crossPollinate(getLocation().getNeighbours())) {
-            seed();
-        }
-        setActionTaken(true);
-
-    }
-
-    /**
-     * Checks whether the Plants surroundings allow for it to seed a new Plant.
-     * 
-     * @param searchArea
-     *          The area to check for seeding conditions (usually neighbours)
-     * @return
-     *          True if the searchArea contains the right conditions for seeding
-     */
-    protected boolean crossPollinate(Cell[] searchArea) {
-
-        int partners = 0;
-        int seedLocationCount = 0;
-
-        for (int i = 0; i < searchArea.length; i++) {
-            if (getType() == searchArea[i].getInhabitant().getType()) {
-                partners++;
-            } else if (searchArea[i].isEmpty()) {
-                seedLocationCount++;
-            }
-        }
-
-        return (partners >= PARTNER_REQ && seedLocationCount >= EMPTY_REQ);
-
-    }
-
-    /**
-     * Creates a new plant object in a randomly selected empty Cell.
-     */
-    protected void seed() {
-        Cell seedDestination = seedDestination(getLocation().getNeighbours());
-
-        seedDestination.setInhabitant(new Plant(seedDestination));
-        seedDestination.init();
-        seedDestination.getInhabitant().setActionTaken(true);
-
-    }
-
-    /**
-     * Randomly selects an Empty Cell from the provided Cell array
-     *      into which the Plant will seed (create a new Plant).
-     *      
-     * @param searchArea
-     *      the collection of Cells to randomly select from
-     * @return
-     *      a randomly selected empty Cell location.
-     */
-    protected Cell seedDestination(Cell[] searchArea) {
-
-        Random numberGenerator = new Random();
-        ArrayList<Cell> destinations = new ArrayList<Cell>();
-        int randNum;
-
-        for (int i = 0; i < searchArea.length; i++) {
-            if (searchArea[i].getInhabitant().getType() == ContentType.BLANK) {
-                destinations.add(searchArea[i]);
-            }
-        }
-
-        randNum = numberGenerator.nextInt(destinations.size());
-        return destinations.get(randNum);
-
-    }
 
     @Override
     public boolean isEdible(Herbivore herbivore) {
@@ -125,19 +65,34 @@ public class Plant extends Lifeform {
 
     @Override
     public boolean isEdible(Omnivore omnivore) {
-        // TODO Auto-generated method stub
         return true;
     }
 
     @Override
     public boolean isEdible(Carnivore carnivore) {
-        // TODO Auto-generated method stub
         return false;
     }
 
     @Override
-    public boolean isEdible(Lifeform lifeform) {
-        // TODO Auto-generated method stub
+    public boolean isEdible(Edible edible) {
         return false;
+    }
+
+    @Override
+    Lifeform giveBirth(Cell location) {
+        
+        return new Plant(location);
+    
+    }
+
+    @Override
+    void resetHunger() {
+        setHunger(1);
+        
+    }
+
+    @Override
+    public void updateHealth() {
+        resetHunger();
     }
 }

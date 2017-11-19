@@ -7,13 +7,30 @@ public class Omnivore extends Lifeform {
     /**
      * The days without eating an Omnivore can exist for.
      */
-    private static final int HUNGER_COUNTER_OMNIVORE = 10;
+    private static final int OMNIVORE_HUNGER = 2;
+    
+    /**
+     * The number of adjacent empty spaces required for reproduction.
+     */
+    private static final int OMNI_SPACE_REQ = 3;
+    
+    /**
+     * The number of adjacent mates required for reproduction.
+     */
+    private static final int OMNI_MATES_REQ = 1;
+    
+    /**
+     * The number of adjacent spaces containing food required for reproduction.
+     */
+    private static final int OMNI_FOOD_REQ = 3;
 
     public Omnivore(Cell location) {
         super(location);
         setColor(Color.blue);
-        setHunger(HUNGER_COUNTER_OMNIVORE);
-
+        setHunger(OMNIVORE_HUNGER);
+        setSpaceRequired(OMNI_SPACE_REQ);
+        setMatesRequired(OMNI_MATES_REQ);
+        setFoodRequired(OMNI_FOOD_REQ);
     }
 
     @Override
@@ -28,17 +45,7 @@ public class Omnivore extends Lifeform {
         return false;
     }
 
-    @Override
-    void init() {
-        getLocation().setColor(this.getColor());
-
-    }
-
-    @Override
-    void takeAction() {
-        // TODO Auto-generated method stub
-
-    }
+    
 
     @Override
     public boolean isEdible(Omnivore omnivore) {
@@ -51,8 +58,20 @@ public class Omnivore extends Lifeform {
     }
 
     @Override
-    public boolean isEdible(Lifeform lifeform) {
+    public boolean isEdible(Edible edible) {
         return false;
+    }
+
+    @Override
+    Lifeform giveBirth(Cell location) {
+        
+        return new Omnivore(location);
+    }
+    
+    @Override
+    void resetHunger() {
+        setHunger(OMNIVORE_HUNGER);
+        
     }
 
 }
