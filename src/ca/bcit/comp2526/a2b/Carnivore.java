@@ -2,6 +2,12 @@ package ca.bcit.comp2526.a2b;
 
 import java.awt.Color;
 
+/**
+ * A Carnivore type Lifeform that eats Herbivores and Omnivores.
+ * 
+ * @author Jeffrey
+ * @version 2017-11-19
+ */
 public class Carnivore extends Lifeform {
     
     /**
@@ -24,6 +30,12 @@ public class Carnivore extends Lifeform {
      */
     private static final int CARN_FOOD_REQ = 2;
 
+    /**
+     * Creates a Carnivore object.
+     * 
+     * @param location
+     *          the carnivore's starting position.
+     */
     public Carnivore(Cell location) {
         super(location);
         setColor(Color.magenta);
@@ -34,37 +46,17 @@ public class Carnivore extends Lifeform {
         setFoodRequired(CARN_FOOD_REQ);
     }
 
-//    @Override
-//    public boolean isEdible(Herbivore herbivore) {
-//        return false;
-//    }
-//
-//    @Override
-//    public boolean isEdible(Plant plant) {
-//        return false;
-//    }
-//
-//    @Override
-//    public boolean isEdible(Omnivore omnivore) {
-//        return true;
-//    }
-//
-//    @Override
-//    public boolean isEdible(Carnivore carnivore) {
-//        return false;
-//    }
-
     @Override
-    public boolean isEdible(Lifeform lifeform) {
-        LifeformType t = lifeform.getType();
+    public boolean isEdible(Lifeform food) {
+        LifeformType t = food.getType();
         
         return (t == LifeformType.OMNIVORE || t == LifeformType.HERBIVORE);
     }
 
     @Override
-    Lifeform giveBirth(Cell location) {
+    Lifeform giveBirth(Cell birthLocation) {
         
-        return new Carnivore(location);
+        return new Carnivore(birthLocation);
     }
 
     @Override

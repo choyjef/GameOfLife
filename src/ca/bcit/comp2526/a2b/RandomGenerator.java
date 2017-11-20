@@ -1,5 +1,11 @@
 package ca.bcit.comp2526.a2b;
 
+/**
+ * Pseudo-random number generator.
+ * 
+ * @author BCIT
+ * @version 02
+ */
 public final class RandomGenerator {
     private static final int[] NUMBERS;
     

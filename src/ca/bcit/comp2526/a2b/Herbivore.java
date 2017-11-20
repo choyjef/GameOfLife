@@ -1,15 +1,13 @@
 package ca.bcit.comp2526.a2b;
 
 import java.awt.Color;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+
 
 /**
- * A Herbivore object that exists only in a Cell, moves, eats Plants and dies.
+ * A Herbivore type Lifeform that eats Plants and dies.
  * 
  * @author Jeffrey
- * @version 2017-11-04
+ * @version 2017-11-19
  */
 public class Herbivore extends Lifeform {
     
@@ -34,9 +32,10 @@ public class Herbivore extends Lifeform {
     private static final int HERB_FOOD_REQ = 2;
 
     /**
-     * Constructs an Herbivore object.
+     * Creates an Herbivore object.
+     * 
      * @param location
-     *          The initial location the Herbivore exists in.
+     *          the herbivore's starting position.
      */
     public Herbivore(Cell location) {
         super(location);
@@ -48,40 +47,18 @@ public class Herbivore extends Lifeform {
         setFoodRequired(HERB_FOOD_REQ);
     }
 
-//    @Override
-//    public boolean isEdible(Herbivore herbivore) {
-//        return false;
-//    }
-//
-//    @Override
-//    public boolean isEdible(Plant plant) {
-//        return false;
-//    }
-//
-//    @Override
-//    public boolean isEdible(Omnivore omnivore) {
-//        // TODO Auto-generated method stub
-//        return true;
-//    }
-//
-//    @Override
-//    public boolean isEdible(Carnivore carnivore) {
-//        // TODO Auto-generated method stub
-//        return true;
-//    }
-
     @Override
-    public boolean isEdible(Lifeform lifeform) {
-        LifeformType t = lifeform.getType();
+    public boolean isEdible(Lifeform food) {
+        LifeformType t = food.getType();
         
         return (t == LifeformType.PLANT);
         
     }
 
     @Override
-    Lifeform giveBirth(Cell location) {
+    Lifeform giveBirth(Cell birthLocation) {
         
-        return new Herbivore(location);
+        return new Herbivore(birthLocation);
     }
 
 

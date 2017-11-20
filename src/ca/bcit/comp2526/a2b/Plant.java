@@ -1,15 +1,13 @@
 package ca.bcit.comp2526.a2b;
 
 import java.awt.Color;
-import java.util.ArrayList;
-import java.util.Random;
 
 /**
  * A Plant object that exists only in a Cell, and seeds new Cells given certain
  * conditions.
  * 
  * @author Jeffrey
- * @version 2017-11-04
+ * @version 2017-11-19
  */
 public class Plant extends Lifeform {
     
@@ -39,42 +37,15 @@ public class Plant extends Lifeform {
         setFoodRequired(0);
     }
 
-
     @Override
     public void move() {
-        
+        // plants do not move or eat
     }
 
-
-//    @Override
-//    public boolean isEdible(Herbivore herbivore) {
-//        return true;
-//    }
-//
-//    @Override
-//    public boolean isEdible(Plant plant) {
-//        return false;
-//    }
-//
-//    @Override
-//    public boolean isEdible(Omnivore omnivore) {
-//        return true;
-//    }
-//
-//    @Override
-//    public boolean isEdible(Carnivore carnivore) {
-//        return false;
-//    }
-//
-//    @Override
-//    public boolean isEdible(Edible edible) {
-//        return false;
-//    }
-
     @Override
-    Lifeform giveBirth(Cell location) {
+    Lifeform giveBirth(Cell birthLocation) {
         
-        return new Plant(location);
+        return new Plant(birthLocation);
     
     }
 
@@ -86,6 +57,7 @@ public class Plant extends Lifeform {
 
     @Override
     public void updateHealth() {
+        // plants do not have hunger
         resetHunger();
     }
 

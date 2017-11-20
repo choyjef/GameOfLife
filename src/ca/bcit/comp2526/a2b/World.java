@@ -7,7 +7,7 @@ import java.util.List;
  * A world object in which the Game of Life takes place.
  * 
  * @author Jeffrey
- * @version 2017-11-04
+ * @version 2017-11-19
  *
  */
 public class World {
@@ -67,52 +67,21 @@ public class World {
         this.grid = new Cell[rows][columns];
     }
     
-    
-    /**
-     * Advances the world a single turn.
-     */
-    public void takeTurn() {
-
-        update();
-    }
-    
-    public void update() {
-        
-        List<Lifeform> lifeforms = new ArrayList<Lifeform>();
-        
-        for (int i = 0; i < this.rows; i++) {
-            for (int j = 0; j < this.columns; j++) {
-                if (grid[i][j].getInhabitant() instanceof Lifeform) {
-                    lifeforms.add(grid[i][j].getInhabitant());
-                }
-            }
-        }
-        
-        for (Lifeform l : lifeforms) {
-            if (!l.isActionTaken()) {
-                l.takeAction();
-            }
-        }
-        
-        for (Lifeform l : lifeforms) {
-            l.setActionTaken(false);
-        }
-        
-        
-    }
-
     /**
      * Initializes the World object by creating and populating creatures 
      *      into the cells.
      */
     public void init() {
+        
         RandomGenerator.reset();
 
+        // creates the cells which represent the game world
         for (int i = 0; i < this.rows; i++) {
             for (int j = 0; j < this.columns; j++) {
                 grid[i][j] = new Cell(this, i, j);
                 int inhabRoll = RandomGenerator.nextNumber(RANDOM_GEN_LIMIT);
 
+                // random generation of creature types 
                 if (inhabRoll >= HERBIVORE_PROB) {
                     grid[i][j].setInhabitant(
                             new Herbivore(grid[i][j]));                    
@@ -122,14 +91,46 @@ public class World {
                     grid[i][j].setInhabitant(new Carnivore(grid[i][j]));
                 } else if (inhabRoll >= OMNIVORE_PROB) {
                     grid[i][j].setInhabitant(new Omnivore(grid[i][j]));
-                } else {
-                    
-                }
+                } 
+                
                 grid[i][j].init();
             }
         }
         meetTheNeighbourhood();
     }
+    
+    /**
+     * Advances the world a single turn.
+     */    
+    public void update() {
+        
+        List<Lifeform> lifeforms = new ArrayList<Lifeform>();
+        
+        // collect all of the existing lifeforms into a list
+        for (int i = 0; i < this.rows; i++) {
+            for (int j = 0; j < this.columns; j++) {
+                if (grid[i][j].getInhabitant() != null) {
+                    lifeforms.add(grid[i][j].getInhabitant());
+                }
+            }
+        }
+        
+        // triggers lifeform actions
+        for (Lifeform l : lifeforms) {
+            if (!l.isActionTaken()) {
+                l.takeAction();
+            }
+        }
+        
+        // resets action taken status
+        for (Lifeform l : lifeforms) {
+            l.setActionTaken(false);
+        }
+        
+        
+    }
+
+    
 
     /**
      * Returns the cell at the specified row and column.

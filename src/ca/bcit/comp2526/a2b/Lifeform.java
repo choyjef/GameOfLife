@@ -6,10 +6,10 @@ import java.util.List;
 import java.util.Random;
 
 /**
- * Abstract class of an Animal object.
+ * Abstract class of a Lifeform object.
  * 
  * @author Jeffrey Choy
- * @version 2017-11-04
+ * @version 2017-11-19
  */
 public abstract class Lifeform implements Edible {
 
@@ -19,7 +19,7 @@ public abstract class Lifeform implements Edible {
     private Cell location;
     
     /**
-     * The color associated with this object.
+     * The color associated with this lifeform.
      */
     private Color color;
     
@@ -29,7 +29,7 @@ public abstract class Lifeform implements Edible {
     private int hunger;
     
     /**
-     * Indicates whether the lifeform has just eaten.
+     * Flag for whether a life form has eaten this turn.
      */
     private boolean justAte;
     
@@ -38,12 +38,24 @@ public abstract class Lifeform implements Edible {
      */
     private boolean actionTaken;
     
-    private int matesRequired;
-    
-    private int foodRequired;
-    
+    /**
+     * The number of adjacent empty spaces required for reproduction.
+     */
     private int spaceRequired;
     
+    /**
+     * The number of adjacent mates required for reproduction.
+     */
+    private int matesRequired;
+    
+    /**
+     * The number of adjacent spaces containing food required for reproduction.
+     */
+    private int foodRequired;
+    
+    /**
+     * An enum identifier for the type of lifeform this object is.
+     */
     private LifeformType type;  
     
     /**
@@ -56,10 +68,24 @@ public abstract class Lifeform implements Edible {
         this.location = location;
     }
 
+    /**
+     * Sets the hunger level of the lifeform back to its default value.
+     */
     abstract void resetHunger();
     
-    abstract Lifeform giveBirth(Cell location);
+    /**
+     * Births a lifeform of this lifeform's type at the specified location.
+     * 
+     * @param birthLocation
+     *              the starting location of the new lifeform
+     * @return
+     *          the new lifeform
+     */
+    abstract Lifeform giveBirth(Cell birthLocation);
     
+    /**
+     * If meeting requirements: move, eat, reproduce, and/or die this turn.
+     */
     public void takeAction() {
         if (!isDead()) {
             move();
@@ -71,19 +97,9 @@ public abstract class Lifeform implements Edible {
         updateHealth();
     }
     
-    protected boolean isDead() {
-        return this.hunger <= 0; 
-    }
-
     /**
-     * Kills the current Lifeform object.
+     * Chooses a location cell and moves into it and eats if possible.
      */
-    public void die() {
-        setActionTaken(true);
-        location.setInhabitant(null);
-        location.update();
-    }
-    
     public void move() {
         Cell currentLocation = location;
         Cell destination = chooseMovePosition();
@@ -93,7 +109,7 @@ public abstract class Lifeform implements Edible {
         }
         
         currentLocation.setInhabitant(null);
-        currentLocation.update();
+        currentLocation.init();
         setLocation(destination);
         if (destination.getInhabitant() == null) {
             justAte = false;
@@ -104,10 +120,19 @@ public abstract class Lifeform implements Edible {
         destination.init(); 
     }
     
+    /**
+     * Selects a neighbouring Cell for the object to move to, preferring 
+     * Cells with food.
+     * 
+     * @return
+     *      the selected cell to move to.
+     */
     public Cell chooseMovePosition() {
         
+        // collects cells neighbouring current location
         Cell[] searchArea = location.getNeighbours();
         
+        // two collections for food cells and empty cells
         List<Cell> foodLocations = new ArrayList<Cell>();
         List<Cell> emptyLocations = new ArrayList<Cell>();
         Random numberGenerator = new Random();
@@ -124,6 +149,7 @@ public abstract class Lifeform implements Edible {
             }
         }
         
+        // if no food or empty cells nearby, sit still
         if (emptyLocations.isEmpty() && foodLocations.isEmpty()) {
             return location;
         }
@@ -139,11 +165,43 @@ public abstract class Lifeform implements Edible {
         }
     }
     
+    /**
+     * Eats the lifeform passed in. Kills the food
+     * and sets the eaten flag.
+     * 
+     * @param food
+     *          object to be eaten
+     */
     protected void eat(Lifeform food) {
         food.die();
         justAte = true; 
     }
     
+    /**
+     * Checks whether this Lifeform has died of starvation.
+     * 
+     * @return
+     *          true if lifeform hasn't eaten in time
+     */
+    protected boolean isDead() {
+        return this.hunger <= 0; 
+    }
+
+    /**
+     * Kills the current Lifeform object.
+     */
+    public void die() {
+        setActionTaken(true);
+        location.setInhabitant(null);
+        location.init();
+        this.location = null;
+    }
+    
+    /**
+     * Checks whether the Lifeform has eaten this turn and either
+     * resets hunger or decrease the hunger counter and kills the
+     * creature if it has died of starvation.
+     */
     public void updateHealth() {
         if (justAte) {
             resetHunger();
@@ -151,33 +209,54 @@ public abstract class Lifeform implements Edible {
             hunger -= 1;
         }
         
+        // reset flag
         this.justAte = false;
         
+        // kills lifeform if it has died of starvation
         if (isDead()) {
             die();
         }
     }
     
+    /**
+     * Checks conditions for reproduction and if passed creates
+     * a new Lifeform object at random potential location.
+     */
     public void reproduce() {
+        // check conditions for reproduction
         if (moodIsRight(getMatesRequired(), getSpaceRequired(), 
                 getFoodRequired())) {
             Cell birthDestination = chooseBirthDestination();
             
+            // polymorphism!
             Lifeform l = giveBirth(birthDestination);
             birthDestination.setInhabitant(l);
             birthDestination.init();
-            birthDestination.getInhabitant().setActionTaken(true);
             
         }
     }
     
-    protected boolean moodIsRight(int numberMatesReq, int numberEmptyReq, int numberFoodReq) {
+    /**
+     * Checks conditions of current location for reproduction.
+     * 
+     * @param numberMatesReq
+     *          number of nearby mating partners required to reproduce
+     * @param numberEmptyReq
+     *          number of neighbouring empty cells required to reproduce
+     * @param numberFoodReq
+     *          number of neighbouring food cells required  to reproduce
+     * @return
+     *          true if conditions met for reproduction
+     */
+    protected boolean moodIsRight(int numberMatesReq, int numberEmptyReq, 
+            int numberFoodReq) {
         
         Cell[] searchArea = location.getNeighbours();
         int partnersCount = 0;
         int birthLocationCount = 0;
         int foodCount = 0;
 
+        // searches Cells for empty cells, cells with food and partners
         for (int i = 0; i < searchArea.length; i++) {
             Lifeform l = searchArea[i].getInhabitant();
             
@@ -188,7 +267,6 @@ public abstract class Lifeform implements Edible {
             } else if (isEdible(l)) {
                 foodCount++;
             }
-            
         }
         
         return (partnersCount >= numberMatesReq 
@@ -197,29 +275,30 @@ public abstract class Lifeform implements Edible {
         
     }
     
+    /**
+     * Select a random neighbouring cell to birth a new Lifeform.
+     * 
+     * @return
+     *          the selected cell for the new Lifeform object
+     */
     protected Cell chooseBirthDestination() {
         Cell[] searchArea = location.getNeighbours();
         List<Cell> birthLocations = new ArrayList<Cell>();
         Random numberGenerator = new Random();
         int randNum;
         
-        System.out.print("chooseBirthDestination for cell:");
-        location.draw();
         // check if neighbours empty, if so add to list of potential 
         // birth locations
         for (int i = 0; i < searchArea.length; i++) {
             if (searchArea[i].isEmpty()) {
                 birthLocations.add(searchArea[i]);
-                System.out.print("Added to birthlocations: ");
-                searchArea[i].draw();
             }
         }
         
         // randomly select from potential birth locations
         randNum = numberGenerator.nextInt(birthLocations.size());
         return birthLocations.get(randNum);
-    }
-    
+    } 
     
     /**
      * Sets the background colour of the cell.
@@ -227,9 +306,7 @@ public abstract class Lifeform implements Edible {
     public void init() {
         location.setColor(this.color);
     }
-    
 
-    
     /**
      * Gets the current Cell that this object exists in.
      * 
@@ -307,6 +384,8 @@ public abstract class Lifeform implements Edible {
     }
     
     /**
+     * Gets the number of neighbouring empty cells required
+     * for this Lifeform to reproduce.
      * @return the spaceRequired
      */
     public int getSpaceRequired() {
@@ -314,6 +393,9 @@ public abstract class Lifeform implements Edible {
     }
 
     /**
+     * Sets the number of neighbouring empty cells required
+     * for this Lifeform to reproduce.
+     * 
      * @param spaceRequired the spaceRequired to set
      */
     public void setSpaceRequired(int spaceRequired) {
@@ -321,6 +403,9 @@ public abstract class Lifeform implements Edible {
     }
 
     /**
+     * Gets the number of neighbouring cells with food required
+     * for this Lifeform to reproduce.
+     * 
      * @return the foodRequired
      */
     public int getFoodRequired() {
@@ -328,6 +413,9 @@ public abstract class Lifeform implements Edible {
     }
 
     /**
+     * Sets the number of neighbouring cells with food required
+     * for this Lifeform to reproduce.
+     * 
      * @param foodRequired the foodRequired to set
      */
     public void setFoodRequired(int foodRequired) {
@@ -335,6 +423,9 @@ public abstract class Lifeform implements Edible {
     }
 
     /**
+     * Gets the number of neighbouring mates required
+     * for this Lifeform to reproduce.
+     * 
      * @return the matesRequired
      */
     public int getMatesRequired() {
@@ -342,21 +433,37 @@ public abstract class Lifeform implements Edible {
     }
 
     /**
+     * Sets the number of neighbouring mates required
+     * for this Lifeform to reproduce.
+     * 
      * @param matesRequired the matesRequired to set
      */
     public void setMatesRequired(int matesRequired) {
         this.matesRequired = matesRequired;
     }
     
+    /**
+     * Checks whether this Lifeform has eaten this turn.
+     * @return
+     *      true if this Lifeform has eaten an object this turn.
+     */
     public boolean isJustAte() {
         return justAte;
     }
 
+    /**
+     * Sets whether this Lifeform has eaten this turn.
+     * 
+     * @param justAte
+     *          true if eaten, false if resetting
+     */
     public void setJustAte(boolean justAte) {
         this.justAte = justAte;
     }
 
     /**
+     * The enumerated type identifier for this type of Lifeform.
+     * 
      * @return the type
      */
     public LifeformType getType() {
@@ -364,6 +471,8 @@ public abstract class Lifeform implements Edible {
     }
 
     /**
+     * Set the enumerated type identifier for this type of Lifeform.
+     * 
      * @param type the type to set
      */
     public void setType(LifeformType type) {

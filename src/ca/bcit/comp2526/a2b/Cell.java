@@ -1,7 +1,6 @@
 package ca.bcit.comp2526.a2b;
 
 import java.awt.Color;
-import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,7 +11,7 @@ import javax.swing.JPanel;
  *      contains an inhabitant.
  * 
  * @author Jeffrey
- * @version 2017-11-04
+ * @version 2017-11-19
  */
 @SuppressWarnings("serial")
 public class Cell extends JPanel {
@@ -65,46 +64,6 @@ public class Cell extends JPanel {
     }
     
     /**
-     * Prints out the row and column indices for this cell.
-     */
-    public void draw() {
-        System.out.println(row + ", " + column);
-    }
-    
-    /**
-     * Returns the Content object inhabiting the Cell.
-     * @return
-     *      This Cell's Content inhabitant.
-     */
-    public Lifeform getInhabitant() {
-        return inhabitant;
-        
-    }
-    
-    
-    /**
-     * Returns a Point object of this Cell's location.
-     * @see java.awt.Component#getLocation()
-     * 
-     */
-    @Override
-    public Point getLocation() {
-        Point location = new Point(this.row, this.column);
-        
-        return location;
-    }
-    
-    /**
-     * Returns the array of this Cell's neighbours.
-     * @return
-     *      An array containing this Cell's neighbouring cells.
-     */
-    public Cell[] getNeighbours() {
-        return neighbours;
-        
-    }
-    
-    /**
      * Sets the background colour of this Cell.
      */
     public void init() {
@@ -116,44 +75,13 @@ public class Cell extends JPanel {
     }
     
     /**
-     * Checks whether the coordinates passed in are within the World
-     *  object grid the the Cell exists in. Primarily used for finding
-     *  neighbours.
-     * 
-     * @param x
-     *          Row index of the Cell to check.
-     * @param y
-     *          Column index of the Cell to check.
+     * Returns the Content object inhabiting the Cell.
      * @return
-     *          True if Cell exists within the World grid, otherwise false.
+     *      This Cell's Content inhabitant.
      */
-    private boolean isInWorld(int x, int y) {
-        return x >= 0 
-                && y >= 0 
-                && x < world.getColumnCount() 
-                && y < world.getRowCount();
-    }
-    
-    /**
-     * Collects all immediately adjacent Cells and stores collection as a 
-     *      data member.
-     * 
-     */
-    public void meetNeighbours() {
-        List<Cell> neighbs = new ArrayList<Cell>();
+    public Lifeform getInhabitant() {
+        return inhabitant;
         
-        for (int i = this.row - 1; i <= this.row + 1; i++) {
-            for (int j = this.column - 1; j <= this.column + 1; j++) {
-                if (i == this.row && j == this.column) {
-                    continue;
-                }
-                if (isInWorld(i, j)) {
-                    neighbs.add(world.getCellAt(i, j));
-                }
-            }
-        }
-        
-        this.neighbours = neighbs.toArray(new Cell[neighbs.size()]);
     }
     
     /**
@@ -169,20 +97,58 @@ public class Cell extends JPanel {
     }
     
     /**
-     * Triggers Cell inhabitant's takeAction method and updates the 
-     *      background color in case the current inhabitant has moved 
-     *      or been replaced.
+     * Returns the array of this Cell's neighbours.
+     * @return
+     *      An array containing this Cell's neighbouring cells.
      */
-    public void takeTurn() {
+    public Cell[] getNeighbours() {
+      
+        return neighbours;
         
     }
     
-    public void update() {
-        if (inhabitant == null) {
-            this.setBackground(Color.white);
-        } else {
-            this.setBackground(color);
+    /**
+     * Collects all immediately adjacent Cells and stores collection as a 
+     *      data member.
+     * 
+     */
+    public void meetNeighbours() {
+        List<Cell> neighbs = new ArrayList<Cell>();
+        
+        // iterates through the nine squares surrounding a position on a grid
+        // and adds them if they are not the original position and if they are
+        // within the bounds of the world grid
+        for (int i = this.row - 1; i <= this.row + 1; i++) {
+            for (int j = this.column - 1; j <= this.column + 1; j++) {
+                if (i == this.row && j == this.column) {
+                    continue;
+                }
+                if (isInWorld(i, j)) {
+                    neighbs.add(world.getCellAt(i, j));
+                }
+            }
         }
+        
+        this.neighbours = neighbs.toArray(new Cell[neighbs.size()]);
+    }
+    
+    /**
+     * Checks whether the coordinates passed in are within the World
+     *  object grid the the Cell exists in. Primarily used for finding
+     *  neighbours.
+     * 
+     * @param x
+     *          Row index of the Cell to check.
+     * @param y
+     *          Column index of the Cell to check.
+     * @return
+     *          True if Cell exists within the World grid, otherwise false.
+     */
+    protected boolean isInWorld(int x, int y) {
+        return x >= 0 
+                && y >= 0 
+                && x < world.getColumnCount() 
+                && y < world.getRowCount();
     }
     
     /**
@@ -194,6 +160,13 @@ public class Cell extends JPanel {
      */
     public boolean isEmpty() {
         return inhabitant == null;
+    }
+    
+    /**
+     * Prints out the row and column indices for this cell.
+     */
+    public void draw() {
+        System.out.println(row + ", " + column);
     }
 
     /**
