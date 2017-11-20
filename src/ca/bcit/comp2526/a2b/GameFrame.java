@@ -1,4 +1,4 @@
-package ca.bcit.comp2526.a2a;
+package ca.bcit.comp2526.a2b;
 
 import java.awt.Color;
 import java.awt.GridLayout;
@@ -9,7 +9,7 @@ import javax.swing.JFrame;
  * A GameFrame object that contains the Game World and visualizes it.
  * 
  * @author Jeffrey
- * @version 2017-11-04
+ * @version 2017-11-19
  */
 @SuppressWarnings("serial")
 public class GameFrame extends JFrame {
@@ -52,7 +52,7 @@ public class GameFrame extends JFrame {
      * Advances the World object a single turn.
      */
     public void takeTurn() {
-        world.takeTurn();
+        world.update();
         repaint();
     }
 }

@@ -1,7 +1,6 @@
-package ca.bcit.comp2526.a2a;
+package ca.bcit.comp2526.a2b;
 
 import java.awt.Color;
-import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,7 +11,7 @@ import javax.swing.JPanel;
  *      contains an inhabitant.
  * 
  * @author Jeffrey
- * @version 2017-11-04
+ * @version 2017-11-19
  */
 @SuppressWarnings("serial")
 public class Cell extends JPanel {
@@ -40,7 +39,7 @@ public class Cell extends JPanel {
     /**
      * The Content object currently existing in this Cell.
      */
-    private Content inhabitant;
+    private Lifeform inhabitant;
     
     /**
      * Array of neighbouring Cells.
@@ -65,10 +64,14 @@ public class Cell extends JPanel {
     }
     
     /**
-     * Prints out the row and column indices for this cell.
+     * Sets the background colour of this Cell.
      */
-    public void draw() {
-        System.out.println(row + ", " + column);
+    public void init() {
+        if (inhabitant == null) {
+            this.setBackground(Color.white);
+        } else {
+            this.setBackground(color);
+        }
     }
     
     /**
@@ -76,22 +79,21 @@ public class Cell extends JPanel {
      * @return
      *      This Cell's Content inhabitant.
      */
-    public Content getInhabitant() {
+    public Lifeform getInhabitant() {
         return inhabitant;
         
     }
     
-    
     /**
-     * Returns a Point object of this Cell's location.
-     * @see java.awt.Component#getLocation()
-     * 
+     * Sets content object as inhabitant of this Cell.
+     * @param l
+     *          new inhabitant.
      */
-    @Override
-    public Point getLocation() {
-        Point location = new Point(this.row, this.column);
-        
-        return location;
+    public void setInhabitant(Lifeform l) {
+        this.inhabitant = l;
+        if (inhabitant != null) {
+            inhabitant.init();
+        }
     }
     
     /**
@@ -100,34 +102,9 @@ public class Cell extends JPanel {
      *      An array containing this Cell's neighbouring cells.
      */
     public Cell[] getNeighbours() {
+      
         return neighbours;
         
-    }
-    
-    /**
-     * Sets the background colour of this Cell.
-     */
-    public void init() {
-        this.setBackground(color);    
-    }
-    
-    /**
-     * Checks whether the coordinates passed in are within the World
-     *  object grid the the Cell exists in. Primarily used for finding
-     *  neighbours.
-     * 
-     * @param x
-     *          Row index of the Cell to check.
-     * @param y
-     *          Column index of the Cell to check.
-     * @return
-     *          True if Cell exists within the World grid, otherwise false.
-     */
-    private boolean isInWorld(int x, int y) {
-        return x >= 0 
-                && y >= 0 
-                && x < world.getColumnCount() 
-                && y < world.getRowCount();
     }
     
     /**
@@ -138,6 +115,9 @@ public class Cell extends JPanel {
     public void meetNeighbours() {
         List<Cell> neighbs = new ArrayList<Cell>();
         
+        // iterates through the nine squares surrounding a position on a grid
+        // and adds them if they are not the original position and if they are
+        // within the bounds of the world grid
         for (int i = this.row - 1; i <= this.row + 1; i++) {
             for (int j = this.column - 1; j <= this.column + 1; j++) {
                 if (i == this.row && j == this.column) {
@@ -153,25 +133,22 @@ public class Cell extends JPanel {
     }
     
     /**
-     * Sets content object as inhabitant of this Cell.
-     * @param c
-     *          new inhabitant.
+     * Checks whether the coordinates passed in are within the World
+     *  object grid the the Cell exists in. Primarily used for finding
+     *  neighbours.
+     * 
+     * @param x
+     *          Row index of the Cell to check.
+     * @param y
+     *          Column index of the Cell to check.
+     * @return
+     *          True if Cell exists within the World grid, otherwise false.
      */
-    public void setInhabitant(Content c) {
-        this.inhabitant = c;
-        this.inhabitant.init();
-    }
-    
-    /**
-     * Triggers Cell inhabitant's takeAction method and updates the 
-     *      background color in case the current inhabitant has moved 
-     *      or been replaced.
-     */
-    public void takeTurn() {
-        if (!inhabitant.isActionTaken()) {
-            inhabitant.takeAction();
-            this.setBackground(color);
-        }
+    protected boolean isInWorld(int x, int y) {
+        return x >= 0 
+                && y >= 0 
+                && x < world.getColumnCount() 
+                && y < world.getRowCount();
     }
     
     /**
@@ -182,7 +159,14 @@ public class Cell extends JPanel {
      *      True if cell is considered empty.
      */
     public boolean isEmpty() {
-        return inhabitant.getType() == ContentType.BLANK;
+        return inhabitant == null;
+    }
+    
+    /**
+     * Prints out the row and column indices for this cell.
+     */
+    public void draw() {
+        System.out.println(row + ", " + column);
     }
 
     /**
