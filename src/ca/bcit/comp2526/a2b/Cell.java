@@ -108,7 +108,11 @@ public class Cell extends JPanel {
      * Sets the background colour of this Cell.
      */
     public void init() {
-        this.setBackground(color);    
+        if (inhabitant == null) {
+            this.setBackground(Color.white);
+        } else {
+            this.setBackground(color);
+        }
     }
     
     /**

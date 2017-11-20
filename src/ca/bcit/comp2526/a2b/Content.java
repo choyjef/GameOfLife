@@ -30,7 +30,7 @@ public abstract class Content implements Edible {
     /**
      * The type of Content this object is.
      */
-    private ContentType type;
+    private LifeformType type;
 
     /**
      * Creates a content object.
@@ -113,7 +113,7 @@ public abstract class Content implements Edible {
      * 
      * @return the type in ContentType enum format.
      */
-    public ContentType getType() {
+    public LifeformType getType() {
         return type;
     }
 
@@ -123,7 +123,7 @@ public abstract class Content implements Edible {
      * @param type
      *            the type to set
      */
-    public void setType(ContentType type) {
+    public void setType(LifeformType type) {
         this.type = type;
     }
 }

@@ -28,34 +28,37 @@ public class Carnivore extends Lifeform {
         super(location);
         setColor(Color.magenta);
         setHunger(CARNIVORE_HUNGER);
+        setType(LifeformType.CARNIVORE);
         setSpaceRequired(CARN_SPACE_REQ);
         setMatesRequired(CARN_MATES_REQ);
         setFoodRequired(CARN_FOOD_REQ);
     }
 
-    @Override
-    public boolean isEdible(Herbivore herbivore) {
-        return false;
-    }
+//    @Override
+//    public boolean isEdible(Herbivore herbivore) {
+//        return false;
+//    }
+//
+//    @Override
+//    public boolean isEdible(Plant plant) {
+//        return false;
+//    }
+//
+//    @Override
+//    public boolean isEdible(Omnivore omnivore) {
+//        return true;
+//    }
+//
+//    @Override
+//    public boolean isEdible(Carnivore carnivore) {
+//        return false;
+//    }
 
     @Override
-    public boolean isEdible(Plant plant) {
-        return false;
-    }
-
-    @Override
-    public boolean isEdible(Omnivore omnivore) {
-        return true;
-    }
-
-    @Override
-    public boolean isEdible(Carnivore carnivore) {
-        return false;
-    }
-
-    @Override
-    public boolean isEdible(Edible edible) {
-        return false;
+    public boolean isEdible(Lifeform lifeform) {
+        LifeformType t = lifeform.getType();
+        
+        return (t == LifeformType.OMNIVORE || t == LifeformType.HERBIVORE);
     }
 
     @Override

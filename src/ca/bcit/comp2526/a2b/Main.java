@@ -16,7 +16,7 @@ public final class Main {
     
     private static final Toolkit TOOLKIT;
     
-    private static final int WORLD_SIZE = 7;
+    private static final int WORLD_SIZE = 25;
     
     private static final float SCREEN_AREA_CALC = 0.80f;
     

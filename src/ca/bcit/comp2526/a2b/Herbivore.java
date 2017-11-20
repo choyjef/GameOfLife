@@ -41,90 +41,41 @@ public class Herbivore extends Lifeform {
     public Herbivore(Cell location) {
         super(location);
         setColor(Color.yellow);
+        setType(LifeformType.HERBIVORE);
         setHunger(HERBIVORE_HUNGER);
         setSpaceRequired(HERB_SPACE_REQ);
         setMatesRequired(HERB_MATES_REQ);
         setFoodRequired(HERB_FOOD_REQ);
     }
 
-
-    /**
-     * Moves the Herbivore into an empty neighbouring Cell, preferring Cells
-     *      with food (plants), and if there is a plant in the destination Cell
-     *      will kill that object. 
-     */
-    //private void move() {
-//        Cell currentLocation = getLocation();
-//        Cell destination = findFood(currentLocation.getNeighbours());
+//    @Override
+//    public boolean isEdible(Herbivore herbivore) {
+//        return false;
+//    }
 //
-//        currentLocation.setInhabitant(new Blank(currentLocation));
-//        setLocation(destination);
-//        destination.setInhabitant(this);
-//        destination.init();
-   // }
-
-    /**
-     * Searches the provided Cell array for Cells containing food and randomly
-     *      returns a Cell with food (if any found) or an empty cell.
-     * 
-     * @param searchArea
-     *          array of Cells to search
-     * @return
-     *          randomly selected Cell with food (if any found) or a randomly
-     *              selected empty Cell.
-     */
-    private Cell findFood(Cell[] searchArea) {
-
-
-        List<Cell> foodLocations = new ArrayList<Cell>();
-        Random numberGenerator = new Random();
-
-        for (int i = 0; i < searchArea.length; i++) {
-            if (searchArea[i].getInhabitant().isEdible(this)) {
-                foodLocations.add(searchArea[i]);
-            }
-        }
-
-        if (foodLocations.size() == 0) {
-            int randNum = numberGenerator.nextInt(searchArea.length);
-            while (!searchArea[randNum].isEmpty()) {
-                randNum = numberGenerator.nextInt(searchArea.length);
-            }
-            setHunger(getHunger() - 1);
-            return searchArea[randNum];
-        } else {
-            int randNum = numberGenerator.nextInt(foodLocations.size());
-            setHunger(HERBIVORE_HUNGER);
-            return foodLocations.get(randNum);
-        }
-    }
+//    @Override
+//    public boolean isEdible(Plant plant) {
+//        return false;
+//    }
+//
+//    @Override
+//    public boolean isEdible(Omnivore omnivore) {
+//        // TODO Auto-generated method stub
+//        return true;
+//    }
+//
+//    @Override
+//    public boolean isEdible(Carnivore carnivore) {
+//        // TODO Auto-generated method stub
+//        return true;
+//    }
 
     @Override
-    public boolean isEdible(Herbivore herbivore) {
-        return false;
-    }
-
-    @Override
-    public boolean isEdible(Plant plant) {
-        return false;
-    }
-
-    @Override
-    public boolean isEdible(Omnivore omnivore) {
-        // TODO Auto-generated method stub
-        return true;
-    }
-
-    @Override
-    public boolean isEdible(Carnivore carnivore) {
-        // TODO Auto-generated method stub
-        return true;
-    }
-
-    @Override
-    public boolean isEdible(Edible edible) {
-        // TODO Auto-generated method stub
-        return false;
+    public boolean isEdible(Lifeform lifeform) {
+        LifeformType t = lifeform.getType();
+        
+        return (t == LifeformType.PLANT);
+        
     }
 
     @Override

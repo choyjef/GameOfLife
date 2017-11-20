@@ -119,9 +119,9 @@ public class World {
                 } else if (inhabRoll >= PLANT_PROB) {
                     grid[i][j].setInhabitant(new Plant(grid[i][j]));
                 } else if (inhabRoll >= CARNIVORE_PROB) {
-                    //grid[i][j].setInhabitant(new Carnivore(grid[i][j]));
+                    grid[i][j].setInhabitant(new Carnivore(grid[i][j]));
                 } else if (inhabRoll >= OMNIVORE_PROB) {
-                    //grid[i][j].setInhabitant(new Omnivore(grid[i][j]));
+                    grid[i][j].setInhabitant(new Omnivore(grid[i][j]));
                 } else {
                     
                 }

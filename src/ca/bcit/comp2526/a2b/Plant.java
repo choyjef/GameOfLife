@@ -14,17 +14,6 @@ import java.util.Random;
 public class Plant extends Lifeform {
     
     /**
-     * The requisite amount of surrounding partners for seeding.
-     */
-    private static final int PARTNER_REQ = 2;
-    
-    /**
-     * The requisite amount of surround empty Cells for seeding.
-     */
-    private static final int EMPTY_REQ = 3;
-    
-    
-    /**
      * The number of adjacent empty spaces required for reproduction.
      */
     private static final int PLANT_SPACE_REQ = 3;
@@ -44,6 +33,10 @@ public class Plant extends Lifeform {
         super(location);
         setColor(Color.green);
         setHunger(1);
+        setType(LifeformType.PLANT);
+        setSpaceRequired(PLANT_SPACE_REQ);
+        setMatesRequired(PLANT_MATES_REQ);
+        setFoodRequired(0);
     }
 
 
@@ -53,30 +46,30 @@ public class Plant extends Lifeform {
     }
 
 
-    @Override
-    public boolean isEdible(Herbivore herbivore) {
-        return true;
-    }
-
-    @Override
-    public boolean isEdible(Plant plant) {
-        return false;
-    }
-
-    @Override
-    public boolean isEdible(Omnivore omnivore) {
-        return true;
-    }
-
-    @Override
-    public boolean isEdible(Carnivore carnivore) {
-        return false;
-    }
-
-    @Override
-    public boolean isEdible(Edible edible) {
-        return false;
-    }
+//    @Override
+//    public boolean isEdible(Herbivore herbivore) {
+//        return true;
+//    }
+//
+//    @Override
+//    public boolean isEdible(Plant plant) {
+//        return false;
+//    }
+//
+//    @Override
+//    public boolean isEdible(Omnivore omnivore) {
+//        return true;
+//    }
+//
+//    @Override
+//    public boolean isEdible(Carnivore carnivore) {
+//        return false;
+//    }
+//
+//    @Override
+//    public boolean isEdible(Edible edible) {
+//        return false;
+//    }
 
     @Override
     Lifeform giveBirth(Cell location) {
@@ -94,5 +87,11 @@ public class Plant extends Lifeform {
     @Override
     public void updateHealth() {
         resetHunger();
+    }
+
+
+    @Override
+    public boolean isEdible(Lifeform lifeform) {
+        return false;
     }
 }
