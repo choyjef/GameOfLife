@@ -1,5 +1,11 @@
-package ca.bcit.comp2526.a2a;
+package ca.bcit.comp2526.a2b;
 
+/**
+ * Pseudo-random number generator.
+ * 
+ * @author BCIT
+ * @version 02
+ */
 public final class RandomGenerator {
     private static final int[] NUMBERS;
     
@@ -41,13 +47,27 @@ public final class RandomGenerator {
 
     private static int next;
 
+    /**
+     * Constructs a RandomGenerator object.
+     */
     private RandomGenerator() {
     }
 
+    
+    /**
+     * Resets random generator.
+     */
     public static void reset() {
         next = 0;
     }
-
+    
+    /**
+     * Generates a random number between 0 and the provided max.
+     * @param max
+     *          the upper bound of the desired range return.
+     * @return
+     *          random number between 0 and provided max.
+     */
     public static int nextNumber(final int max) {
         try {
             return (Math.abs(NUMBERS[next]) % max);

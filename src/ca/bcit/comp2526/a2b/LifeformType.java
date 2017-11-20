@@ -1,13 +1,13 @@
-package ca.bcit.comp2526.a2a;
+package ca.bcit.comp2526.a2b;
 
 /**
  * An enumerated type containing all existing concrete implementations
- *      of a Content type.
+ *      of a Lifeform type.
  * 
  * @author Jeffrey
- * @version 2017-11-04
+ * @version 2017-11-19
  */
-public enum ContentType {
+public enum LifeformType {
 
     /**
      * A Herbivore.
@@ -20,8 +20,13 @@ public enum ContentType {
     PLANT,
 
     /**
-     * No Content.
+     * A Carnivore.
      */
-    BLANK
+    CARNIVORE,
+    
+    /**
+     * An Omnivore.
+     */
+    OMNIVORE
 
 }

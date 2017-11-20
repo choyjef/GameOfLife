@@ -1,10 +1,13 @@
-package ca.bcit.comp2526.a2a;
+package ca.bcit.comp2526.a2b;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A world object in which the Game of Life takes place.
  * 
  * @author Jeffrey
- * @version 2017-11-04
+ * @version 2017-11-19
  *
  */
 public class World {
@@ -12,17 +15,27 @@ public class World {
     /**
      * The upper limit passed to our random number generator.
      */
-    private static final int RANDOM_GEN_LIMIT = 99;
+    private static final int RANDOM_GEN_LIMIT = 100;
     
     /**
-     * The upper limit passed to our random number generator.
+     * Probability constant for generating a herbivore.
      */
     private static final int HERBIVORE_PROB = 80;
     
     /**
-     * The upper limit passed to our random number generator.
+     * Probability constant for generating a plant.
      */
     private static final int PLANT_PROB = 50;
+    
+    /**
+     * Probability constant for generating a carnivore.
+     */
+    private static final int CARNIVORE_PROB = 40;
+    
+    /**
+     * Probability constant for generating a omnivore.
+     */
+    private static final int OMNIVORE_PROB = 32;
     
     /**
      * The number of rows in the world grid.
@@ -54,50 +67,70 @@ public class World {
         this.grid = new Cell[rows][columns];
     }
     
-    
-    /**
-     * Advances the world a single turn.
-     */
-    public void takeTurn() {
-
-        for (int i = 0; i < this.rows; i++) {
-            for (int j = 0; j < this.columns; j++) {
-                grid[i][j].takeTurn();
-            }
-        }
-        
-        for (int i = 0; i < this.rows; i++) {
-            for (int j = 0; j < this.columns; j++) {
-                grid[i][j].getInhabitant().setActionTaken(false);
-            }
-        } 
-    }
-
     /**
      * Initializes the World object by creating and populating creatures 
      *      into the cells.
      */
     public void init() {
-        int inhabitantRoll;
+        
+        RandomGenerator.reset();
 
+        // creates the cells which represent the game world
         for (int i = 0; i < this.rows; i++) {
             for (int j = 0; j < this.columns; j++) {
                 grid[i][j] = new Cell(this, i, j);
-                inhabitantRoll = RandomGenerator.nextNumber(RANDOM_GEN_LIMIT);
+                int inhabRoll = RandomGenerator.nextNumber(RANDOM_GEN_LIMIT);
 
-                if (inhabitantRoll >= HERBIVORE_PROB) {
+                // random generation of creature types 
+                if (inhabRoll >= HERBIVORE_PROB) {
                     grid[i][j].setInhabitant(
                             new Herbivore(grid[i][j]));                    
-                } else if (inhabitantRoll >= PLANT_PROB) {
+                } else if (inhabRoll >= PLANT_PROB) {
                     grid[i][j].setInhabitant(new Plant(grid[i][j]));
-                } else {
-                    grid[i][j].setInhabitant(new Blank(grid[i][j]));
-                }
+                } else if (inhabRoll >= CARNIVORE_PROB) {
+                    grid[i][j].setInhabitant(new Carnivore(grid[i][j]));
+                } else if (inhabRoll >= OMNIVORE_PROB) {
+                    grid[i][j].setInhabitant(new Omnivore(grid[i][j]));
+                } 
+                
                 grid[i][j].init();
             }
         }
         meetTheNeighbourhood();
     }
+    
+    /**
+     * Advances the world a single turn.
+     */    
+    public void update() {
+        
+        List<Lifeform> lifeforms = new ArrayList<Lifeform>();
+        
+        // collect all of the existing lifeforms into a list
+        for (int i = 0; i < this.rows; i++) {
+            for (int j = 0; j < this.columns; j++) {
+                if (grid[i][j].getInhabitant() != null) {
+                    lifeforms.add(grid[i][j].getInhabitant());
+                }
+            }
+        }
+        
+        // triggers lifeform actions
+        for (Lifeform l : lifeforms) {
+            if (!l.isActionTaken()) {
+                l.takeAction();
+            }
+        }
+        
+        // resets action taken status
+        for (Lifeform l : lifeforms) {
+            l.setActionTaken(false);
+        }
+        
+        
+    }
+
+    
 
     /**
      * Returns the cell at the specified row and column.
