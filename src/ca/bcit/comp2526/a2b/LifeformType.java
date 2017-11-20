@@ -27,6 +27,6 @@ public enum LifeformType {
     /**
      * An Omnivore.
      */
-    OMNIVORE,
+    OMNIVORE
 
 }
