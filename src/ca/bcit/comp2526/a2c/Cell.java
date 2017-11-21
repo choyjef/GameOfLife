@@ -1,4 +1,4 @@
-package ca.bcit.comp2526.a2b;
+package ca.bcit.comp2526.a2c;
 
 import java.awt.Color;
 import java.util.ArrayList;

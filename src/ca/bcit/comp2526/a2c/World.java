@@ -1,4 +1,4 @@
-package ca.bcit.comp2526.a2b;
+package ca.bcit.comp2526.a2c;
 
 import java.util.ArrayList;
 import java.util.List;
