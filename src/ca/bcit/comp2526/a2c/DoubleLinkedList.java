@@ -2,6 +2,7 @@ package ca.bcit.comp2526.a2c;
 
 import java.io.Serializable;
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 
 public class DoubleLinkedList<E> implements Iterable<E>, Serializable {
@@ -14,7 +15,7 @@ public class DoubleLinkedList<E> implements Iterable<E>, Serializable {
     private Node<E> tail;
     private int size;
     
-    public class Node<E> implements Serializable {
+    public static class Node<E> implements Serializable {
         /**
          * 
          */
@@ -22,18 +23,18 @@ public class DoubleLinkedList<E> implements Iterable<E>, Serializable {
         E data;
         Node<E> next, prev;
         
-        Node (E data) {
+        Node(E data) {
             this(data, null, null);
             
         }
         
-        Node (E data, Node<E> next, Node<E> prev) {
+        Node(E data, Node<E> next, Node<E> prev) {
             this.data = data;
             this.next = next;
             this.prev = prev;
         }
         
-        E getLifeform() {
+        E getData() {
             return data;
         }
         
@@ -95,6 +96,7 @@ public class DoubleLinkedList<E> implements Iterable<E>, Serializable {
         } else {
             Node<E> temp = new Node<E>(data);
             tail.next = temp;
+            temp.prev = tail;
             tail = temp;
         }
         
@@ -102,16 +104,21 @@ public class DoubleLinkedList<E> implements Iterable<E>, Serializable {
     }
     
     public E removeFromEnd() throws CouldNotRemoveException {
-        
+        E removed;
         if (head == null) {
             throw new CouldNotRemoveException("List is empty");
+        } else if (head == tail) {
+            removed = tail.data;
+            head = null;
+            tail = null; 
         } else {
-            E removed = tail.data;
+            removed = tail.data;
             tail = tail.prev;
             tail.next = null;
-            size--;
-            return removed;
+         
         }
+        size--;
+        return removed;
         
     }
     
@@ -138,25 +145,33 @@ public class DoubleLinkedList<E> implements Iterable<E>, Serializable {
         return size;
     }
     
+    public boolean isEmpty() {
+        return head != null && tail != null;
+    }
+    
     
 
     @Override
     public Iterator<E> iterator() {
         return new Iterator <E>() {
             
-            private Node<E> current = head;
+            private Node<E> next = head;
+            
 
             @Override
             public boolean hasNext() {
-                
-                return current != tail;
+                return next != null;
             }
 
             @Override
             public E next() {
-                current = current.next;
                 
-                return current.data;
+                if (!hasNext()) {
+                    throw new NoSuchElementException();
+                }
+                E data = next.data;
+                next = next.next;
+                return data;
             }
             
         };
