@@ -1,6 +1,7 @@
 package ca.bcit.comp2526.a2c;
 
 import java.awt.Color;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -11,12 +12,12 @@ import java.util.Random;
  * @author Jeffrey Choy
  * @version 2017-11-19
  */
-public abstract class Lifeform implements Edible {
+public abstract class Lifeform implements Edible, Serializable {
 
     /**
      * The current Cell location this object exists in.
      */
-    private Cell location;
+    private transient Cell location;
     
     /**
      * The color associated with this lifeform.

@@ -6,7 +6,11 @@ import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -50,17 +54,60 @@ public class GameFrame extends JFrame {
         add(controls, BorderLayout.PAGE_END);
         
         controls.setLayout(new FlowLayout());
-        JButton startStop = new JButton("Start/Stop");
+        JButton startStopButton = new JButton("Start/Stop");
         
-        startStop.addActionListener(new ActionListener() {
+        startStopButton.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent arg0) {
+            public void actionPerformed(ActionEvent a) {
                 // TODO Auto-generated method stub
                 world.startSimulation();        
             }
         });
         
-        controls.add(startStop);
+        JButton saveButton = new JButton("Save");
+        
+        saveButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent a) {
+                try {
+                    FileOutputStream fileOut = new FileOutputStream("saveGame.ser");
+                    ObjectOutputStream out = new ObjectOutputStream(fileOut);
+                    out.writeObject(world);
+                    out.close();
+                    fileOut.close();
+                    System.out.printf("Game saved in saveGame.ser");
+                } catch (IOException i) {
+                    i.printStackTrace();
+                }
+            }
+        });
+        
+        JButton loadButton = new JButton("Load");
+        
+        loadButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent a) {
+                World brave;
+                try {
+                    FileInputStream fileIn = new FileInputStream("saveGame.ser");
+                    ObjectInputStream in = new ObjectInputStream(fileIn);
+                    brave = (World) in.readObject();
+                    in.close();
+                    fileIn.close();
+                } catch (IOException i) {
+                    i.printStackTrace();
+                    return;
+                } catch (ClassNotFoundException c) {
+                    c.printStackTrace();
+                    return;
+                }
+                System.out.println("Game loaded.");
+            } 
+        });
+        
+        controls.add(startStopButton);
+        controls.add(saveButton);
+        controls.add(loadButton);
         
         game.setLayout(new GridLayout(world.getRowCount(), 
                 world.getColumnCount()));

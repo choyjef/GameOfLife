@@ -1,6 +1,7 @@
 package ca.bcit.comp2526.a2c;
 
 import java.awt.Color;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,12 +15,12 @@ import javax.swing.JPanel;
  * @version 2017-11-19
  */
 @SuppressWarnings("serial")
-public class Cell extends JPanel {
+public class Cell extends JPanel implements Serializable {
     
     /**
      * The World object this Cell exists in. 
      */
-    private World world;
+    transient private World world;
     
     /**
      * The row index of this Cell.
