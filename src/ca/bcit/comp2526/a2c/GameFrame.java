@@ -6,8 +6,7 @@ import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -52,20 +51,16 @@ public class GameFrame extends JFrame {
         
         controls.setLayout(new FlowLayout());
         JButton startStop = new JButton("Start/Stop");
+        
         startStop.addActionListener(new ActionListener() {
-
-
             @Override
             public void actionPerformed(ActionEvent arg0) {
                 // TODO Auto-generated method stub
-                world.startSimulation();
-                
+                world.startSimulation();        
             }
-        
         });
+        
         controls.add(startStop);
-        
-        
         
         game.setLayout(new GridLayout(world.getRowCount(), 
                 world.getColumnCount()));

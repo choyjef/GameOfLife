@@ -2,6 +2,7 @@ package ca.bcit.comp2526.a2c;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,7 +15,7 @@ import javax.swing.Timer;
  * @version 2017-11-19
  *
  */
-public class World {
+public class World implements Serializable {
     
     /**
      * The upper limit passed to our random number generator.
