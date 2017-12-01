@@ -1,7 +1,11 @@
 package ca.bcit.comp2526.a2c;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.swing.Timer;
 
 /**
  * A world object in which the Game of Life takes place.
@@ -51,6 +55,8 @@ public class World {
      * A grid of Cells which visually represents the game world.
      */
     private Cell[][] grid;
+    
+    private Timer timer;
 
   
     /**
@@ -73,6 +79,7 @@ public class World {
      */
     public void init() {
         
+        timer = new Timer(500, new StartStopListener());
         RandomGenerator.reset();
 
         // creates the cells which represent the game world
@@ -130,8 +137,6 @@ public class World {
         
     }
 
-    
-
     /**
      * Returns the cell at the specified row and column.
      * 
@@ -178,5 +183,27 @@ public class World {
             }
         }
     }
+    
+    public void startSimulation() {
+        
+        if (!timer.isRunning()) {
+            timer.start();
+        } else {
+            timer.stop();
+        }
+    }
+    
+    public void endSimulation() {
+        
+    }
+    
+    private class StartStopListener implements ActionListener {
 
+        @Override
+        public void actionPerformed(ActionEvent arg0) {
+            update();
+            
+        }
+        
+    }
 }

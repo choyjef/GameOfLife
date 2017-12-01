@@ -1,8 +1,16 @@
 package ca.bcit.comp2526.a2c;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.FlowLayout;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
 import javax.swing.BorderFactory;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -34,13 +42,34 @@ public class GameFrame extends JFrame {
      * Initializes the game World grid and creates a visual representation.
      */
     public void init() {
-        setTitle("Assignment 2a");
+        setTitle("Assignment 2c");
+        setLayout(new BorderLayout());
         
         JPanel game = new JPanel();
-        add(game);
+        JPanel controls = new JPanel();
+        add(game, BorderLayout.CENTER);
+        add(controls, BorderLayout.PAGE_END);
         
-        game.setLayout(new GridLayout(world.getRowCount(), world.getColumnCount()));
+        controls.setLayout(new FlowLayout());
+        JButton startStop = new JButton("Start/Stop");
+        startStop.addActionListener(new ActionListener() {
 
+
+            @Override
+            public void actionPerformed(ActionEvent arg0) {
+                // TODO Auto-generated method stub
+                world.startSimulation();
+                
+            }
+        
+        });
+        controls.add(startStop);
+        
+        
+        
+        game.setLayout(new GridLayout(world.getRowCount(), 
+                world.getColumnCount()));
+        
         for (int row = 0; row < world.getRowCount(); row++) {
             for (int col = 0; col < world.getColumnCount(); col++) {
                 game.add(world.getCellAt(row, col));
@@ -51,6 +80,8 @@ public class GameFrame extends JFrame {
         }
 
         addMouseListener(new TurnListener(this));
+        
+        repaint();
     }
     
     /**

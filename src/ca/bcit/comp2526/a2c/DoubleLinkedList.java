@@ -155,16 +155,15 @@ public class DoubleLinkedList<E> implements Iterable<E>, Serializable {
     public Iterator<E> iterator() {
         return new Iterator <E>() {
             
-            private Node<E> next = head;
+            private Node<E> next = head;       
             
-
             @Override
             public boolean hasNext() {
                 return next != null;
             }
 
             @Override
-            public E next() {
+            public E next() throws NoSuchElementException {
                 
                 if (!hasNext()) {
                     throw new NoSuchElementException();
@@ -175,13 +174,5 @@ public class DoubleLinkedList<E> implements Iterable<E>, Serializable {
             }
             
         };
-    }
-
-
-    
-    
-    
-    
-
-    
+    } 
 }
