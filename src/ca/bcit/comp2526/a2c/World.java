@@ -86,7 +86,7 @@ public class World implements Serializable {
      */
     public void init() {
         
-        timer = new Timer(500, new StartStopListener());
+        timer = new Timer(100, new StartStopListener());
         RandomGenerator.reset();
 
         // creates the cells which represent the game world
@@ -118,6 +118,11 @@ public class World implements Serializable {
         for (int i = 0; i < this.rows; i++) {
             for (int j = 0; j < this.columns; j++) {
                 grid[i][j].setWorld(this);
+                if (!grid[i][j].isEmpty()) {
+                    grid[i][j].getInhabitant().setLocation(grid[i][j]);
+                    
+                }
+                
                 grid[i][j].init();
                 grid[i][j].draw();
             }

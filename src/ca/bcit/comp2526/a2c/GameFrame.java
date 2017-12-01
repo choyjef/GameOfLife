@@ -29,7 +29,7 @@ public class GameFrame extends JFrame {
     /**
      * The World object in which the game occurs.
      */
-    private final World world;
+    private World world;
 
     /**
      * Creates a GameFrame object.
@@ -48,9 +48,9 @@ public class GameFrame extends JFrame {
         setTitle("Assignment 2c");
         setLayout(new BorderLayout());
         
-        JPanel game = new JPanel();
+        JPanel gamePanel = new JPanel();
         JPanel controls = new JPanel();
-        add(game, BorderLayout.CENTER);
+        add(gamePanel, BorderLayout.CENTER);
         add(controls, BorderLayout.PAGE_END);
         
         controls.setLayout(new FlowLayout());
@@ -101,10 +101,22 @@ public class GameFrame extends JFrame {
                     c.printStackTrace();
                     return;
                 }
-                brave.reinit();
+                
+                world = brave;
+                gamePanel.removeAll();
+                for (int row = 0; row < world.getRowCount(); row++) {
+                    for (int col = 0; col < world.getColumnCount(); col++) {
+                        gamePanel.add(world.getCellAt(row, col));
+                        world.getCellAt(row, col).setBorder(
+                                BorderFactory.createMatteBorder(
+                                        1, 1, 0, 0, Color.BLACK));
+                    }
+                }
+                world.reinit();
                 GameFrame.this.repaint();
                 System.out.println("Game loaded.");
                 System.out.println("Cell:" + brave.getCellCount());
+                
             } 
         });
         
@@ -112,12 +124,12 @@ public class GameFrame extends JFrame {
         controls.add(saveButton);
         controls.add(loadButton);
         
-        game.setLayout(new GridLayout(world.getRowCount(), 
+        gamePanel.setLayout(new GridLayout(world.getRowCount(), 
                 world.getColumnCount()));
         
         for (int row = 0; row < world.getRowCount(); row++) {
             for (int col = 0; col < world.getColumnCount(); col++) {
-                game.add(world.getCellAt(row, col));
+                gamePanel.add(world.getCellAt(row, col));
                 world.getCellAt(row, col).setBorder(
                         BorderFactory.createMatteBorder(
                                 1, 1, 0, 0, Color.BLACK));
