@@ -18,6 +18,11 @@ import javax.swing.Timer;
 public class World implements Serializable {
     
     /**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
+
+    /**
      * The upper limit passed to our random number generator.
      */
     private static final int RANDOM_GEN_LIMIT = 100;
@@ -58,7 +63,8 @@ public class World implements Serializable {
     private Cell[][] grid;
     
     private Timer timer;
-
+    
+    private int cellCount;
   
     /**
      * Creates a World object.
@@ -87,6 +93,7 @@ public class World implements Serializable {
         for (int i = 0; i < this.rows; i++) {
             for (int j = 0; j < this.columns; j++) {
                 grid[i][j] = new Cell(this, i, j);
+                cellCount++;
                 int inhabRoll = RandomGenerator.nextNumber(RANDOM_GEN_LIMIT);
 
                 // random generation of creature types 
@@ -105,6 +112,17 @@ public class World implements Serializable {
             }
         }
         meetTheNeighbourhood();
+    }
+    
+    public void reinit() {
+        for (int i = 0; i < this.rows; i++) {
+            for (int j = 0; j < this.columns; j++) {
+                grid[i][j].setWorld(this);
+                grid[i][j].init();
+                grid[i][j].draw();
+            }
+        }
+        
     }
     
     /**
@@ -134,8 +152,6 @@ public class World implements Serializable {
         for (Lifeform l : lifeforms) {
             l.setActionTaken(false);
         }
-        
-        
     }
 
     /**
@@ -198,6 +214,20 @@ public class World implements Serializable {
         
     }
     
+    /**
+     * @return the cellCount
+     */
+    public int getCellCount() {
+        return cellCount;
+    }
+
+    /**
+     * @param cellCount the cellCount to set
+     */
+    public void setCellCount(int cellCount) {
+        this.cellCount = cellCount;
+    }
+
     private class StartStopListener implements ActionListener {
 
         @Override

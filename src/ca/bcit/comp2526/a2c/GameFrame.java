@@ -101,7 +101,10 @@ public class GameFrame extends JFrame {
                     c.printStackTrace();
                     return;
                 }
+                brave.reinit();
+                GameFrame.this.repaint();
                 System.out.println("Game loaded.");
+                System.out.println("Cell:" + brave.getCellCount());
             } 
         });
         

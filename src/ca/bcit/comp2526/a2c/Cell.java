@@ -16,11 +16,11 @@ import javax.swing.JPanel;
  */
 @SuppressWarnings("serial")
 public class Cell extends JPanel implements Serializable {
-    
+
     /**
      * The World object this Cell exists in. 
      */
-    transient private World world;
+    private transient World world;
     
     /**
      * The row index of this Cell.
@@ -167,7 +167,11 @@ public class Cell extends JPanel implements Serializable {
      * Prints out the row and column indices for this cell.
      */
     public void draw() {
-        System.out.println(row + ", " + column);
+        System.out.print(row + ", " + column);
+        if (!isEmpty()) {
+            System.out.print("Has lifefform");
+        }
+        System.out.println();
     }
 
     /**
@@ -188,5 +192,15 @@ public class Cell extends JPanel implements Serializable {
     public void setColor(Color color) {
         this.color = color;
     }
+    
+    public World getWorld() {
+        return world;
+    }
+
+    public void setWorld(World world) {
+        this.world = world;
+    }
+    
+    
     
 }

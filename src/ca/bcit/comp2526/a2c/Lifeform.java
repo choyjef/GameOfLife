@@ -479,5 +479,5 @@ public abstract class Lifeform implements Edible, Serializable {
     public void setType(LifeformType type) {
         this.type = type;
     }
-
+    
 }
