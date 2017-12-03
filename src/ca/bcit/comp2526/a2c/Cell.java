@@ -14,8 +14,9 @@ import javax.swing.JPanel;
  * @author Jeffrey
  * @version 2017-11-19
  */
-@SuppressWarnings("serial")
 public class Cell extends JPanel implements Serializable {
+
+    private static final long serialVersionUID = 6239100837369770896L;
 
     /**
      * The World object this Cell exists in. 
@@ -193,10 +194,20 @@ public class Cell extends JPanel implements Serializable {
         this.color = color;
     }
     
+    /**
+     * Returns the Cell's current world.
+     * @return
+     *          this Cell's world
+     */
     public World getWorld() {
         return world;
     }
 
+    /**
+     * Sets the Cell's current world.
+     * @param world
+     *          the world to set
+     */
     public void setWorld(World world) {
         this.world = world;
     }

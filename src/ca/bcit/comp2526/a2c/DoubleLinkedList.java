@@ -7,19 +7,14 @@ import java.util.NoSuchElementException;
 
 public class DoubleLinkedList<E> implements Iterable<E>, Serializable {
     
-    /**
-     * 
-     */
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = -2260912150597434272L;
     private Node<E> head;
     private Node<E> tail;
     private int size;
     
     public static class Node<E> implements Serializable {
-        /**
-         * 
-         */
-        private static final long serialVersionUID = 1L;
+        
+        private static final long serialVersionUID = 3024491391320805720L;
         E data;
         Node<E> next, prev;
         
@@ -172,6 +167,7 @@ public class DoubleLinkedList<E> implements Iterable<E>, Serializable {
                 next = next.next;
                 return data;
             }
+            
             
         };
     } 

@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.swing.Timer;
@@ -115,6 +116,8 @@ public class World implements Serializable {
     }
     
     public void reinit() {
+        timer = new Timer(100, new StartStopListener());
+
         for (int i = 0; i < this.rows; i++) {
             for (int j = 0; j < this.columns; j++) {
                 grid[i][j].setWorld(this);
@@ -124,7 +127,7 @@ public class World implements Serializable {
                 }
                 
                 grid[i][j].init();
-                grid[i][j].draw();
+                
             }
         }
         
@@ -157,6 +160,48 @@ public class World implements Serializable {
         for (Lifeform l : lifeforms) {
             l.setActionTaken(false);
         }
+    }
+    
+    public void updateLinkedList() {
+        DoubleLinkedList<Lifeform> lifeforms = new DoubleLinkedList<Lifeform>();
+        
+        
+        for (int i = 0; i < this.rows; i++) {
+            for (int j = 0; j < this.columns; j++) {
+                if (!grid[i][j].isEmpty()) {
+                    try {
+                        lifeforms.addToEnd(grid[i][j].getInhabitant()); 
+                    } catch (CouldNotAddException c) {
+                        c.printStackTrace();
+                    }
+                    
+                }
+            }
+        }
+        Iterator<Lifeform> it = lifeforms.iterator();
+        
+        while (it.hasNext()) {
+            Lifeform l = it.next();  
+            if (!l.isActionTaken()) {
+                l.takeAction();
+            }        
+        }
+        
+        it = lifeforms.iterator();
+        
+        while (it.hasNext()) {
+            Lifeform l = it.next();
+            l.setActionTaken(false);
+        }
+        
+    }
+
+    public Cell[][] getGrid() {
+        return grid;
+    }
+
+    public void setGrid(Cell[][] grid) {
+        this.grid = grid;
     }
 
     /**
@@ -211,12 +256,12 @@ public class World implements Serializable {
         if (!timer.isRunning()) {
             timer.start();
         } else {
-            timer.stop();
+            endSimulation();
         }
     }
     
     public void endSimulation() {
-        
+        timer.stop();
     }
     
     /**
@@ -237,7 +282,7 @@ public class World implements Serializable {
 
         @Override
         public void actionPerformed(ActionEvent arg0) {
-            update();
+            updateLinkedList();
             
         }
         

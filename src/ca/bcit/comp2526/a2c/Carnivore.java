@@ -10,6 +10,8 @@ import java.awt.Color;
  */
 public class Carnivore extends Lifeform {
     
+    private static final long serialVersionUID = -8787895711500761383L;
+
     /**
      * The number of days without eating an Carnivore can exist for.
      */
