@@ -1,4 +1,4 @@
-package ca.bcit.comp2526.a2b;
+package ca.bcit.comp2526.a2c;
 
 import java.awt.Dimension;
 import java.awt.Point;
@@ -10,7 +10,7 @@ import javax.swing.JFrame;
  * Drives the program.
  * 
  * @author Jeffrey
- * @version 2017-11-19
+ * @version 2017-12-02
  */
 public final class Main {
     

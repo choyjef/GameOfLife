@@ -1,4 +1,4 @@
-package ca.bcit.comp2526.a2b;
+package ca.bcit.comp2526.a2c;
 
 import java.awt.Color;
 
@@ -6,10 +6,15 @@ import java.awt.Color;
  * A Carnivore type Lifeform that eats Herbivores and Omnivores.
  * 
  * @author Jeffrey
- * @version 2017-11-19
+ * @version 2017-12-02
  */
 public class Carnivore extends Lifeform {
     
+    /**
+     * Generated SerialVersionUID.
+     */
+    private static final long serialVersionUID = -8787895711500761383L;
+
     /**
      * The number of days without eating an Carnivore can exist for.
      */

@@ -1,11 +1,11 @@
-package ca.bcit.comp2526.a2b;
+package ca.bcit.comp2526.a2c;
 
 /**
  * An interface to determine whether an object can be eaten
  * by another object.
  * 
  * @author Jeffrey
- * @version 2017-11-19
+ * @version 2017-12-02
  *
  */
 public interface Edible {

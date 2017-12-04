@@ -1,4 +1,4 @@
-package ca.bcit.comp2526.a2b;
+package ca.bcit.comp2526.a2c;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -7,7 +7,7 @@ import java.awt.event.MouseEvent;
  * An object to listen for mouse clicks in order to advancec the game.
  * 
  * @author Jeffrey
- * @version 2017-11-19
+ * @version 2017-12-02
  */
 public class TurnListener extends MouseAdapter {
     
