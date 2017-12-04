@@ -5,7 +5,7 @@ package ca.bcit.comp2526.a2c;
  *      of a Lifeform type.
  * 
  * @author Jeffrey
- * @version 2017-11-19
+ * @version 2017-12-02
  */
 public enum LifeformType {
 

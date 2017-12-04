@@ -1,55 +1,31 @@
-/**
- * 
- */
 package ca.bcit.comp2526.a2c;
 
 /**
+ * An exception that when thrown indicates an inability to
+ * add data to a collection.
+ * 
  * @author Jeffrey
- *
+ * @version 2017-12-02
  */
 public class CouldNotRemoveException extends Exception {
 
+    private static final long serialVersionUID = 9009475499681954213L;
+
     /**
-     * 
+     * Instantiates a CouldNotRemoveException object.
      */
     public CouldNotRemoveException() {
         // TODO Auto-generated constructor stub
     }
 
     /**
+     * Instantiates a CouldNotAddException allowing
+     * a string message.
      * @param arg0
+     *          message string to be printed
      */
     public CouldNotRemoveException(String arg0) {
         super(arg0);
-        // TODO Auto-generated constructor stub
-    }
-
-    /**
-     * @param cause
-     */
-    public CouldNotRemoveException(Throwable cause) {
-        super(cause);
-        // TODO Auto-generated constructor stub
-    }
-
-    /**
-     * @param message
-     * @param cause
-     */
-    public CouldNotRemoveException(String message, Throwable cause) {
-        super(message, cause);
-        // TODO Auto-generated constructor stub
-    }
-
-    /**
-     * @param message
-     * @param cause
-     * @param enableSuppression
-     * @param writableStackTrace
-     */
-    public CouldNotRemoveException(String message, Throwable cause, boolean enableSuppression,
-            boolean writableStackTrace) {
-        super(message, cause, enableSuppression, writableStackTrace);
         // TODO Auto-generated constructor stub
     }
 

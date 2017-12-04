@@ -1,8 +1,8 @@
 package ca.bcit.comp2526.a2c;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.swing.Timer;
@@ -11,11 +11,16 @@ import javax.swing.Timer;
  * A world object in which the Game of Life takes place.
  * 
  * @author Jeffrey
- * @version 2017-11-19
+ * @version 2017-12-02
  *
  */
-public class World {
+public class World implements Serializable {
     
+    /**
+     * Generated SerialVersionUID.
+     */
+    private static final long serialVersionUID = 9111559383502959631L;
+
     /**
      * The upper limit passed to our random number generator.
      */
@@ -42,6 +47,11 @@ public class World {
     private static final int OMNIVORE_PROB = 32;
     
     /**
+     * The speed of the simulation.
+     */
+    private static final int SIMULATION_SPEED = 100;
+    
+    /**
      * The number of rows in the world grid.
      */
     private int rows;
@@ -57,7 +67,8 @@ public class World {
     private Cell[][] grid;
     
     private Timer timer;
-
+    
+    private int cellCount;
   
     /**
      * Creates a World object.
@@ -79,13 +90,14 @@ public class World {
      */
     public void init() {
         
-        timer = new Timer(500, new StartStopListener());
+        timer = new Timer(SIMULATION_SPEED, (a -> updateUsingLinkedList()));
         RandomGenerator.reset();
 
         // creates the cells which represent the game world
         for (int i = 0; i < this.rows; i++) {
             for (int j = 0; j < this.columns; j++) {
                 grid[i][j] = new Cell(this, i, j);
+                cellCount++;
                 int inhabRoll = RandomGenerator.nextNumber(RANDOM_GEN_LIMIT);
 
                 // random generation of creature types 
@@ -104,6 +116,23 @@ public class World {
             }
         }
         meetTheNeighbourhood();
+    }
+    
+    /**
+     * Reinitializes the world following being loaded from a save state.
+     */
+    public void reinit() {
+        timer = new Timer(SIMULATION_SPEED, (a -> updateUsingLinkedList()));
+
+        for (int i = 0; i < this.rows; i++) {
+            for (int j = 0; j < this.columns; j++) {
+                grid[i][j].setWorld(this);
+                if (!grid[i][j].isEmpty()) {
+                    grid[i][j].getInhabitant().setLocation(grid[i][j]);
+                }
+                grid[i][j].init(); 
+            }
+        } 
     }
     
     /**
@@ -133,9 +162,70 @@ public class World {
         for (Lifeform l : lifeforms) {
             l.setActionTaken(false);
         }
+    }
+    
+    /**
+     * Advances the World a single turn using a double linked list for
+     * the collection of Lifeforms.
+     */
+    public void updateUsingLinkedList() {
+        DoubleLinkedList<Lifeform> lifeforms = new DoubleLinkedList<Lifeform>();
         
+        // collect all of the existing lifeforms into a list
+        for (int i = 0; i < this.rows; i++) {
+            for (int j = 0; j < this.columns; j++) {
+                if (!grid[i][j].isEmpty()) {
+                    try {
+                        lifeforms.addToEnd(grid[i][j].getInhabitant()); 
+                    } catch (CouldNotAddException c) {
+                        c.printStackTrace();
+                    }
+                }
+            }
+        }
+        
+        // Create iterator
+        Iterator<Lifeform> it = lifeforms.iterator();
+        
+        // Tells lifeforms to take action
+        while (it.hasNext()) {
+            Lifeform l = it.next();  
+            if (!l.isActionTaken()) {
+                l.takeAction();
+            }        
+        }
+        
+        // Reset iterator
+        it = lifeforms.iterator();
+        
+        // resets action taken status
+        while (it.hasNext()) {
+            Lifeform l = it.next();
+            l.setActionTaken(false);
+        }
         
     }
+    
+    /**
+     * Initiates the timer to continually advance the world until stopped.
+     */
+    public void startSimulation() {
+        
+        if (!timer.isRunning()) {
+            timer.start();
+        } else {
+            endSimulation();
+        }
+    }
+    
+    /**
+     * Stops the timer from advancing turns in the world.
+     */
+    public void endSimulation() {
+        timer.stop();
+    }
+
+    
 
     /**
      * Returns the cell at the specified row and column.
@@ -184,26 +274,33 @@ public class World {
         }
     }
     
-    public void startSimulation() {
-        
-        if (!timer.isRunning()) {
-            timer.start();
-        } else {
-            timer.stop();
-        }
+    /**
+     * Returns the 2D grid of Cells in the world.
+     * @return
+     *          the array of cells.
+     */
+    public Cell[][] getGrid() {
+        return grid;
     }
-    
-    public void endSimulation() {
-        
-    }
-    
-    private class StartStopListener implements ActionListener {
 
-        @Override
-        public void actionPerformed(ActionEvent arg0) {
-            update();
-            
-        }
-        
+    /**
+     * Sets the grid for this world.
+     * @param grid
+     *          the new grid of Cells to be set.
+     */
+    public void setGrid(Cell[][] grid) {
+        this.grid = grid;
     }
+    
+    /**
+     * Returns the number of cells in the world.
+     * 
+     * @return the cellCount
+     *                  the number of cells currently in the world.
+     */
+    public int getCellCount() {
+        return cellCount;
+    }
+
+
 }

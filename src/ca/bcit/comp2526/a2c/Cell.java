@@ -1,6 +1,7 @@
 package ca.bcit.comp2526.a2c;
 
 import java.awt.Color;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,15 +12,19 @@ import javax.swing.JPanel;
  *      contains an inhabitant.
  * 
  * @author Jeffrey
- * @version 2017-11-19
+ * @version 2017-12-02
  */
-@SuppressWarnings("serial")
-public class Cell extends JPanel {
-    
+public class Cell extends JPanel implements Serializable {
+
+    /**
+     * Generated SerialVersionUID.
+     */
+    private static final long serialVersionUID = 6239100837369770896L;
+
     /**
      * The World object this Cell exists in. 
      */
-    private World world;
+    private transient World world;
     
     /**
      * The row index of this Cell.
@@ -166,7 +171,11 @@ public class Cell extends JPanel {
      * Prints out the row and column indices for this cell.
      */
     public void draw() {
-        System.out.println(row + ", " + column);
+        System.out.print(row + ", " + column);
+        if (!isEmpty()) {
+            System.out.print("Has lifefform");
+        }
+        System.out.println();
     }
 
     /**
@@ -187,5 +196,25 @@ public class Cell extends JPanel {
     public void setColor(Color color) {
         this.color = color;
     }
+    
+    /**
+     * Returns the Cell's current world.
+     * @return
+     *          this Cell's world
+     */
+    public World getWorld() {
+        return world;
+    }
+
+    /**
+     * Sets the Cell's current world.
+     * @param world
+     *          the world to set
+     */
+    public void setWorld(World world) {
+        this.world = world;
+    }
+    
+    
     
 }
