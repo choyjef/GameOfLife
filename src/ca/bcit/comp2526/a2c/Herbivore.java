@@ -7,10 +7,15 @@ import java.awt.Color;
  * A Herbivore type Lifeform that eats Plants and dies.
  * 
  * @author Jeffrey
- * @version 2017-11-19
+ * @version 2017-12-02
  */
 public class Herbivore extends Lifeform {
     
+    /**
+     * Generated SerialVersionUID.
+     */
+    private static final long serialVersionUID = 8041465461861396386L;
+
     /**
      * The number of days without eating an Herbivore can exist for.
      */

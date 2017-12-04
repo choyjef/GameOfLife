@@ -4,7 +4,7 @@ package ca.bcit.comp2526.a2c;
  * Pseudo-random number generator.
  * 
  * @author BCIT
- * @version 02
+ * @version 03
  */
 public final class RandomGenerator {
     private static final int[] NUMBERS;
