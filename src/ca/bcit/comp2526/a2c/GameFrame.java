@@ -19,7 +19,7 @@ import javax.swing.JPanel;
  * A GameFrame object that contains the Game World and visualizes it.
  * 
  * @author Jeffrey
- * @version 2017-11-19
+ * @version 2017-12-02
  */
 public class GameFrame extends JFrame {
     
@@ -71,7 +71,7 @@ public class GameFrame extends JFrame {
      * Advances the World object a single turn.
      */
     public void takeTurn() {
-        world.updateLinkedList();
+        world.updateUsingLinkedList();
         repaint();
     }
     

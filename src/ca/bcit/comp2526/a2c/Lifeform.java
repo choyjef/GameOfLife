@@ -10,9 +10,14 @@ import java.util.Random;
  * Abstract class of a Lifeform object.
  * 
  * @author Jeffrey Choy
- * @version 2017-11-19
+ * @version 2017-12-02
  */
 public abstract class Lifeform implements Edible, Serializable {
+
+    /**
+     * Generated SerialVersionUID.
+     */
+    private static final long serialVersionUID = 880066766979603675L;
 
     /**
      * The current Cell location this object exists in.

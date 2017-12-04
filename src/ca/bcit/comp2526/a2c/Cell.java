@@ -16,6 +16,9 @@ import javax.swing.JPanel;
  */
 public class Cell extends JPanel implements Serializable {
 
+    /**
+     * Generated SerialVersionUID.
+     */
     private static final long serialVersionUID = 6239100837369770896L;
 
     /**

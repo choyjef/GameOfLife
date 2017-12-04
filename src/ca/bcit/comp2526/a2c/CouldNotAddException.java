@@ -9,6 +9,9 @@ package ca.bcit.comp2526.a2c;
  */
 public class CouldNotAddException extends Exception {
 
+    /**
+     * Generated SerialVersionUID.
+     */
     private static final long serialVersionUID = -937603809942485279L;
 
     /**

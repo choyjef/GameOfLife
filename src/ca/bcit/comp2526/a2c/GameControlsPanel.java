@@ -7,9 +7,13 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
+/**
+ * A JPanel containing the game controls for the GameOfLife game.
+ * 
+ * @author Jeffrey
+ * @version 2017-12-02
+ */
 public class GameControlsPanel extends JPanel {
-
-    
 
     private static final long serialVersionUID = -4040955820198173379L;
     
@@ -21,6 +25,14 @@ public class GameControlsPanel extends JPanel {
     private JButton startStopButton;
     private JButton resetButton;
 
+    /**
+     * Instantiates a GameControlsPanel object.
+     * 
+     * @param game
+     *          the game to be associated with the controls.
+     * @param world
+     *          the world the controls will be associated with.
+     */
     public GameControlsPanel(GameFrame game, World world) {
         super();
         setLayout(new FlowLayout());
@@ -29,6 +41,9 @@ public class GameControlsPanel extends JPanel {
         populateControlPanel();
     }
     
+    /**
+     * Initializes the control panel with the appropriate buttons.
+     */
     private void populateControlPanel() {
         
         ControlListener control = new ControlListener();
@@ -50,6 +65,12 @@ public class GameControlsPanel extends JPanel {
         add(resetButton);
     }
     
+    /**
+     * Action Listener for control panel.
+     * 
+     * @author Jeffrey
+     * @version 2017-12-02
+     */
     private class ControlListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -83,10 +104,20 @@ public class GameControlsPanel extends JPanel {
         }
     }
 
+    /**
+     * Gets the World currently associated with the controls.
+     * @return
+     *      the World to be returned.
+     */
     public World getWorld() {
         return world;
     }
-
+    
+    /**
+     * Sets the world to associated with the controls.
+     * @param world
+     *          the World object to be set.
+     */
     public void setWorld(World world) {
         this.world = world;
     }

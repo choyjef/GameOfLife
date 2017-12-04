@@ -6,10 +6,15 @@ import java.awt.Color;
  * An Omnivore type Lifeform that can eat herbivores, carnivores or plants.
  * 
  * @author Jeffrey
- * @version 2017-11-19
+ * @version 2017-12-02
  */
 public class Omnivore extends Lifeform {
     
+    /**
+     * Generated SerialVersionUID.
+     */
+    private static final long serialVersionUID = 5951986305101803485L;
+
     /**
      * The days without eating an Omnivore can exist for.
      */

@@ -10,6 +10,9 @@ import java.awt.Color;
  */
 public class Carnivore extends Lifeform {
     
+    /**
+     * Generated SerialVersionUID.
+     */
     private static final long serialVersionUID = -8787895711500761383L;
 
     /**

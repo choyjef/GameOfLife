@@ -277,7 +277,7 @@ public class DoubleLinkedList<E> implements Iterable<E>, Serializable {
      *      true if no Nodes currently in the list.
      */
     public boolean isEmpty() {
-        return head != null && tail != null;
+        return head == null && tail == null;
     }
     
     @Override

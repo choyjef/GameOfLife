@@ -7,10 +7,15 @@ import java.awt.Color;
  * conditions.
  * 
  * @author Jeffrey
- * @version 2017-11-19
+ * @version 2017-12-02
  */
 public class Plant extends Lifeform {
     
+    /**
+     * Generated SerialVersionUID.
+     */
+    private static final long serialVersionUID = -7892191774519139086L;
+
     /**
      * The number of adjacent empty spaces required for reproduction.
      */
